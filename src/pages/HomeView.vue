@@ -16,7 +16,7 @@ const saldo = computed(() => receitas.value - despesas.value);
 
 
 <template>
-  <<main>
+  <main>
   <!-- Inputs para adicionar receita e despesa -->
   <div>
     <label for="inputReceita">Receita:</label>
@@ -35,4 +35,4 @@ const saldo = computed(() => receitas.value - despesas.value);
   </div>
 </main>
 
-</template>''
+</template>
