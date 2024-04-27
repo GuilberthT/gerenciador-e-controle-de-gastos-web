@@ -1,5 +1,7 @@
 <script setup>
-import { ref, computed } from 'vue';
+import Balance from '@/components/Balance.vue';
+import CustomInput from '@/components/CustomInput.vue';
+import { computed, ref } from 'vue';
 
 // Definindo a reatividade para receitas e despesas
 const receitas = ref(0);
@@ -13,26 +15,13 @@ const totalDespesas = computed(() => despesas.value);
 const saldo = computed(() => receitas.value - despesas.value);
 </script>
 
-
-
 <template>
   <main>
-  <!-- Inputs para adicionar receita e despesa -->
-  <div>
-    <label for="inputReceita">Receita:</label>
-    <input type="number" id="inputReceita" v-model="receitas">
-  </div>
-  <div>
-    <label for="inputDespesa">Despesa:</label>
-    <input type="number" id="inputDespesa" v-model="despesas">
-  </div>
+    <!-- Inputs para adicionar receita e despesa -->
+    <CustomInput label="Receita" v-model="receitas" />
+    <CustomInput label="Despesa" v-model="despesas" />
 
-  <!-- Exibindo o total de receitas, total de despesas e saldo -->
-  <div>
-    <h2>Total de Receitas: {{ totalReceitas }}</h2>
-    <h2>Total de Despesas: {{ totalDespesas }}</h2>
-    <h2>Balanço: {{ saldo }}</h2>
-  </div>
-</main>
-
+    <!-- Exibindo o total de receitas, total de despesas e saldo -->
+    <Balance :totalDespesas="totalDespesas" :totalReceitas="totalReceitas" :saldo="saldo" />
+  </main>
 </template>
