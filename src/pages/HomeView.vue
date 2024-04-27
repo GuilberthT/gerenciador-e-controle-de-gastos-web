@@ -1,38 +1,30 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { getUsers } from '@/api/users/users.js';
+import { onMounted, ref } from 'vue';
 
-// Definindo a reatividade para receitas e despesas
-const receitas = ref(0);
-const despesas = ref(0);
+const users = ref()
 
-// Calculando o total de receitas e despesas
-const totalReceitas = computed(() => receitas.value);
-const totalDespesas = computed(() => despesas.value);
+onMounted(async () => {
+  users.value = await getUsers()
+})
 
-// Calculando o saldo
-const saldo = computed(() => receitas.value - despesas.value);
 </script>
-
-
-
 <template>
   <main>
-  <!-- Inputs para adicionar receita e despesa -->
-  <div>
-    <label for="inputReceita">Receita:</label>
-    <input type="number" id="inputReceita" v-model="receitas">
-  </div>
-  <div>
-    <label for="inputDespesa">Despesa:</label>
-    <input type="number" id="inputDespesa" v-model="despesas">
-  </div>
-
-  <!-- Exibindo o total de receitas, total de despesas e saldo -->
-  <div>
-    <h2>Total de Receitas: {{ totalReceitas }}</h2>
-    <h2>Total de Despesas: {{ totalDespesas }}</h2>
-    <h2>Balanço: {{ saldo }}</h2>
-  </div>
-</main>
-
+    <table>
+      <tr>
+        <th>Nome</th>
+        <th>Idade</th>
+        <th>Email</th>
+        <th>Sexo</th>
+      </tr>
+      <tr v-for="user in users" :key="user.id">
+        <td>{{ user.firstName }}</td>
+        <td>{{ user.age }}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.gender }}</td>
+        <td><img :src="user.image" width="100" height="100" /></td>
+      </tr>
+    </table>
+  </main>
 </template>
