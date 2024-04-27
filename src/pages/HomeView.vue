@@ -1,22 +1,38 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { ref, computed } from 'vue';
 
-// reatividade
-const numero1 = ref(0)
-const numero2 = ref(0)
+// Definindo a reatividade para receitas e despesas
+const receitas = ref(0);
+const despesas = ref(0);
 
-const soma = computed(() => Number(numero1.value) + Number(numero2.value))
+// Calculando o total de receitas e despesas
+const totalReceitas = computed(() => receitas.value);
+const totalDespesas = computed(() => despesas.value);
 
+// Calculando o saldo
+const saldo = computed(() => receitas.value - despesas.value);
 </script>
 
-<template>
-  <main>
-    <!-- diretive -->
-    <!-- two way databind -->
-    <input type="text" v-model="numero1">
-    <input type="text" v-model="numero2">
 
-    <!-- Double mustache -->
-    <h1 v-show="soma != 0">Soma: {{ soma }}</h1>
-  </main>
+
+<template>
+  <<main>
+  <!-- Inputs para adicionar receita e despesa -->
+  <div>
+    <label for="inputReceita">Receita:</label>
+    <input type="number" id="inputReceita" v-model="receitas">
+  </div>
+  <div>
+    <label for="inputDespesa">Despesa:</label>
+    <input type="number" id="inputDespesa" v-model="despesas">
+  </div>
+
+  <!-- Exibindo o total de receitas, total de despesas e saldo -->
+  <div>
+    <h2>Total de Receitas: {{ totalReceitas }}</h2>
+    <h2>Total de Despesas: {{ totalDespesas }}</h2>
+    <h2>Balanço: {{ saldo }}</h2>
+  </div>
+</main>
+
 </template>
