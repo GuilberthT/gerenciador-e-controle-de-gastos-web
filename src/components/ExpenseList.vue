@@ -11,7 +11,7 @@
   
   <script>
   import { ref, onMounted } from 'vue';
-  import ExpenseService from '@/services/ExpenseService.js';
+  import ExpenseService from '@/api/ExpenseService.js';
   
   export default {
     setup() {

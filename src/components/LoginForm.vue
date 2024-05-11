@@ -1,7 +1,31 @@
+<script setup>
+import { login } from '@/api/AuthService';
+import { ref } from 'vue';
+
+const email = ref('')
+const password = ref('')
+const errorMessage = ref('')
+
+async function handleLogin(){
+  try {
+    const dataLogin = {
+      email: email.value,
+      password: password.value
+    }
+
+    const token = await login(dataLogin)
+  
+    localStorage.setItem('token', token)
+  } catch (error) {
+    errorMessage.value = error.response.data.msg
+  }
+}
+</script>
+
 <template>
   <div class="container login-container">
     <h2>Formulário de Login</h2>
-    <form @submit.prevent="login">
+    <form @submit.prevent="handleLogin">
       <div>
         <label for="email">Email:</label>
         <input type="email" id="email" v-model="email" required>
@@ -15,33 +39,3 @@
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </div>
 </template>
-
-<script>
-import AuthService from '@/services/AuthService.js'; 
-
-export default {
-  data() {
-    return {
-      email: '',
-      password: '',
-      errorMessage: '',
-    };
-  },
-  methods: {
-    async login() {
-      try {
-        const token = await AuthService.login(this.email, this.password);
-        localStorage.setItem('user_token', token);
-        this.$router.push('/profile');
-      } catch (error) {
-        this.errorMessage = error.response.data.msg || 'Erro ao fazer login.';
-      }
-    },
-  },
-};
-
-</script>
-
-<style scoped>
-
-</style>

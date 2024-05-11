@@ -1,4 +1,4 @@
-import axios from '../axiosInstance.js'
+import axios from './axiosInstance.js'
 
 export async function getExpenses() {
     const data = await axios.get('/expenses')

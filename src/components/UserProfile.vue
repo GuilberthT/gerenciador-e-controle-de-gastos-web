@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import AuthService from '@/services/AuthService.js'; 
+import AuthService from '@/api/AuthService.js'; 
 export default {
   data() {
     return {

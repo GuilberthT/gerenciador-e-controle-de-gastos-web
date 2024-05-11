@@ -11,7 +11,7 @@
   
   <script>
   import { ref, onMounted } from 'vue';
-  import IncomeService from '@/services/IncomeService.js';
+  import IncomeService from '@/api/IncomeService.js';
   
   export default {
     setup() {

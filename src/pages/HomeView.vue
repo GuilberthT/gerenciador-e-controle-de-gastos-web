@@ -1,11 +1,17 @@
 <script setup>
-import { getExpenses } from '@/api/expenses/expenses.js';
+import { getExpenses } from '@/api/expenses.js';
 import { onMounted, ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const expenses = ref()
+const router = useRouter()
 
 onMounted(async () => {
-    expenses.value = await getExpenses()
+    try {
+        expenses.value = await getExpenses()
+    } catch (error) {
+        router.push('/login')
+    }
 })
 
 </script>
