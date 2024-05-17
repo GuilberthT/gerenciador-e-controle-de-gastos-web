@@ -6,7 +6,7 @@ const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
 
-async function handleLogin(){
+async function handleLogin() {
   try {
     const dataLogin = {
       email: email.value,
@@ -14,7 +14,7 @@ async function handleLogin(){
     }
 
     const token = await login(dataLogin)
-  
+
     localStorage.setItem('token', token)
   } catch (error) {
     errorMessage.value = error.response.data.msg

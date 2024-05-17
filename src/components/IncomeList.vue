@@ -1,4 +1,29 @@
+<script setup>
+import { ref, onMounted } from 'vue';
+import { getIncomes } from '@/api/income.js';
+
+const incomes = ref([]);
+
+async function loadIncomes() {
+  incomes.value = await getIncomes();
+}
+
+onMounted(loadIncomes);
+</script>
+
 <template>
+  <div class="container">
+    <h2>Lista de Receitas</h2>
+    <ul>
+      <li v-for="income in incomes" :key="income._id">
+        {{ income.description }} - R$ {{ income.amount }}
+      </li>
+    </ul>
+  </div>
+</template>
+
+
+<!-- <template>
     <div class="container">
       <h2>Lista de Receitas</h2>
       <ul>
@@ -26,9 +51,4 @@
       };
     }
   };
-  </script>
-  
-  <style scoped>
-
-  </style>
-  
+  </script> -->

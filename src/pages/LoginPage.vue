@@ -5,3 +5,5 @@ import LoginForm from '@/components/LoginForm.vue';
 <template>
   <LoginForm />
 </template>
+
+<!-- DE ONDE IMPORTOU O LOGINFORM? -->
