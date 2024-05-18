@@ -1,5 +1,6 @@
 <script setup>
 import { login } from '@/api/AuthService';
+import { Notify, QBtn, QForm, QInput } from 'quasar';
 import { ref } from 'vue';
 
 const email = ref('')
@@ -14,10 +15,20 @@ async function handleLogin() {
     }
 
     const token = await login(dataLogin)
+    
+    Notify.create({
+      message: `${email.value} Logado com sucesso!`,
+      color: "positive",
+      textColor: "white"
+    })
 
     localStorage.setItem('token', token)
   } catch (error) {
-    errorMessage.value = error.response.data.msg
+    Notify.create({
+      message: error.response.data.msg,
+      color: "negative",
+      textColor: "white"
+    })
   }
 }
 </script>
@@ -25,17 +36,19 @@ async function handleLogin() {
 <template>
   <div class="container login-container">
     <h2>Formulário de Login</h2>
-    <form @submit.prevent="handleLogin">
-      <div>
-        <label for="email">Email:</label>
-        <input type="email" id="email" v-model="email" required>
+    <QForm @submit="handleLogin">
+      <div class="inputForm">
+        <QInput dense outlined type="email" id="email" label="email" v-model="email" />
+        <QInput dense outlined type="password" id="password" label="Senha" v-model="password" />
       </div>
-      <div>
-        <label for="password">Senha:</label>
-        <input type="password" id="password" v-model="password" required>
-      </div>
-      <button type="submit">Entrar</button>
-    </form>
+      <QBtn type="submit" color="primary" label="Entrar" />
+    </QForm>
     <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
   </div>
 </template>
+
+<style>
+.inputForm {
+  width: 20vw;
+}
+</style>

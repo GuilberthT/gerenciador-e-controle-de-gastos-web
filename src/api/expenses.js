@@ -1,8 +1,14 @@
 import axios from './axiosInstance.js'
 
 export async function getExpenses() {
-  const data = await axios.get('/expenses')
-  return data.data
+  try {
+    const data = await axios.get('/expenses')
+    
+    return data.data
+  } catch (error) {
+    console.log(error) 
+    return error
+  }
 }
 
 export async function createExpense(expense) {
