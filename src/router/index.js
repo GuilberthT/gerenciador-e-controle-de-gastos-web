@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 // import HomePage from '../pages/HomePage.vue';
 import LoginPage from '../pages/LoginPage.vue';
 import HomeView from '@/pages/HomeView.vue';
-// import RegisterPage from '../pages/RegisterPage.vue';
+import RegisterPage from '../pages/RegisterPage.vue';
 // import ProfilePage from '../pages/ProfilePage.vue';
 
 const routes = [
@@ -16,11 +16,11 @@ const routes = [
     name: 'Login',
     component: LoginPage
   },
-  // {
-  //   path: '/register',
-  //   name: 'Register',
-  //   component: RegisterPage
-  // },
+  {
+    path: '/register',
+    name: 'Register',
+    component: RegisterPage
+  },
   // {
   //   path: '/profile',
   //   name: 'Profile',
