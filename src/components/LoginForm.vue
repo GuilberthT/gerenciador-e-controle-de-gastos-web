@@ -2,10 +2,12 @@
 import { login } from '@/api/AuthService';
 import { Notify, QForm, QInput, QBtn } from 'quasar';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 const email = ref('');
 const password = ref('');
 const errorMessage = ref('');
+const router = useRouter();
 
 async function handleLogin() {
   try {
@@ -23,6 +25,8 @@ async function handleLogin() {
     });
 
     localStorage.setItem('token', token);
+
+    router.push('/');
   } catch (error) {
     errorMessage.value = error.response.data.msg;
     Notify.create({

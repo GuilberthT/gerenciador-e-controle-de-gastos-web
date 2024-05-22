@@ -47,7 +47,6 @@ async function handleRegister() {
             <q-page-container>
                 <q-page class="flex bg-grey-2 page-container">
                     <div class="form-container">
-                        <!-- Formulário de Registro -->
                         <q-card class="q-pa-md shadow-2 my_card" bordered>
                             <q-card-section class="text-center">
                                 <div class="text-grey-9 text-h5 text-weight-bold">Registrar</div>
@@ -77,7 +76,6 @@ async function handleRegister() {
                         </q-card>
                     </div>
                     <div class="image-container">
-                        <!-- Imagem -->
                         <img src="@/assets/images/signUp.svg" alt="Sign Up Image" class="sign-up-image" />
                     </div>
                 </q-page>
