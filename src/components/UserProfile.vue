@@ -1,26 +1,27 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { getUser, logout } from '@/api/AuthService.js';
-import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { getUser, logout } from '@/api/AuthService.js'
 
-const user = ref({});
-const router = useRouter();
+const user = ref({})
+const router = useRouter()
 
 async function loadUser() {
   try {
-    user.value = await getUser();
-  } catch (error) {
-    console.error('Erro ao carregar informações do usuário:', error);
-    handleLogout();
+    user.value = await getUser()
+  }
+  catch (error) {
+    console.error('Erro ao carregar informações do usuário:', error)
+    handleLogout()
   }
 }
 
 function handleLogout() {
-  logout();
-  router.push('/login');
+  logout()
+  router.push('/login')
 }
 
-onMounted(loadUser);
+onMounted(loadUser)
 </script>
 
 <template>
@@ -28,7 +29,9 @@ onMounted(loadUser);
     <h2>Perfil do Usuário</h2>
     <p>Nome: {{ user.name }}</p>
     <p>Email: {{ user.email }}</p>
-    <button @click="logout">Sair</button>
+    <button @click="logout">
+      Sair
+    </button>
   </div>
 </template>
 
@@ -42,7 +45,7 @@ onMounted(loadUser);
 </template>
 
 <script>
-import AuthService from '@/api/AuthService.js'; 
+import AuthService from '@/api/AuthService.js';
 export default {
   data() {
     return {

@@ -1,14 +1,14 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { getIncomes } from '@/api/income.js';
+import { onMounted, ref } from 'vue'
+import { getIncomes } from '@/api/income.js'
 
-const incomes = ref([]);
+const incomes = ref([])
 
 async function loadIncomes() {
-  incomes.value = await getIncomes();
+  incomes.value = await getIncomes()
 }
 
-onMounted(loadIncomes);
+onMounted(loadIncomes)
 </script>
 
 <template>
@@ -22,7 +22,6 @@ onMounted(loadIncomes);
   </div>
 </template>
 
-
 <!-- <template>
     <div class="container">
       <h2>Lista de Receitas</h2>
@@ -33,19 +32,19 @@ onMounted(loadIncomes);
       </ul>
     </div>
   </template>
-  
+
   <script>
   import { ref, onMounted } from 'vue';
   import IncomeService from '@/api/IncomeService.js';
-  
+
   export default {
     setup() {
       const incomes = ref([]);
-  
+
       onMounted(async () => {
         incomes.value = await IncomeService.getIncomes();
       });
-  
+
       return {
         incomes
       };

@@ -1,14 +1,14 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { getExpenses } from '@/api/expenses.js';
+import { onMounted, ref } from 'vue'
+import { getExpenses } from '@/api/expenses.js'
 
-const expenses = ref([]);
+const expenses = ref([])
 
 async function loadExpenses() {
-  expenses.value = await getExpenses();
+  expenses.value = await getExpenses()
 }
 
-onMounted(loadExpenses);
+onMounted(loadExpenses)
 </script>
 
 <template>
@@ -22,7 +22,6 @@ onMounted(loadExpenses);
   </div>
 </template>
 
-
 <!-- <template>
     <div class="container">
       <h2>Lista de Despesas</h2>
@@ -33,19 +32,19 @@ onMounted(loadExpenses);
       </ul>
     </div>
   </template>
-  
+
   <script>
   import { ref, onMounted } from 'vue';
   import ExpenseService from '@/api/ExpenseService.js';
-  
+
   export default {
     setup() {
       const expenses = ref([]);
-  
+
       onMounted(async () => {
         expenses.value = await ExpenseService.getExpenses();
       });
-  
+
       return {
         expenses
       };

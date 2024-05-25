@@ -7,13 +7,13 @@ export async function login(data) {
 
 export async function getUser() {
   const token = localStorage.getItem('token')
-  if (!token) {
+  if (!token)
     throw new Error('Token não encontrado.')
-  }
+
   const response = await axios.get('/user/me', {
     headers: {
-      Authorization: `Bearer ${token}`
-    }
+      Authorization: `Bearer ${token}`,
+    },
   })
   return response.data.user
 }

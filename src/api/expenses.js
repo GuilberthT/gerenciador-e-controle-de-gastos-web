@@ -3,10 +3,10 @@ import axios from './axiosInstance.js'
 export async function getExpenses() {
   try {
     const data = await axios.get('/expenses')
-    
+
     return data.data
-  } catch (error) {
-    console.log(error) 
+  }
+  catch (error) {
     return error
   }
 }
