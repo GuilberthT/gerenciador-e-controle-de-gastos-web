@@ -43,97 +43,76 @@ async function handleRegister() {
 </script>
 
 <template>
-  <div id="q-app">
-    <q-layout view="lHh Lpr lFf">
-      <q-page-container>
-        <q-page class="flex bg-grey-2 page-container">
-          <div class="form-container">
-            <q-card class="q-pa-md shadow-2 my_card" bordered>
-              <q-card-section class="text-center">
-                <div class="text-grey-9 text-h5 text-weight-bold">
-                  Registrar
-                </div>
-                <div class="text-grey-8">
-                  Preencha os campos abaixo para criar sua conta
-                </div>
-              </q-card-section>
-              <q-card-section>
-                <QForm @submit.prevent="handleRegister">
-                  <QInput v-model="name" dense outlined label="Nome" required />
-                  <QInput v-model="email" dense outlined type="email" label="Email" required />
-                  <QInput v-model="password" dense outlined type="password" label="Senha" required />
-                  <QInput
-                    v-model="confirmPassword" dense outlined type="password"
-                    label="Confirmar Senha" required
-                  />
-                  <QBtn
-                    style="border-radius: 8px;" color="primary" rounded size="md"
-                    label="Registrar" no-caps class="full-width q-mt-md" type="submit"
-                  />
-                </QForm>
-              </q-card-section>
-              <q-card-section class="text-center q-pt-none">
-                <div class="text-grey-8">
-                  Já tem uma conta?
-                  <a
-                    href="/login" class="text-dark text-weight-bold"
-                    style="text-decoration: none"
-                  >Faça login.</a>
-                </div>
-              </q-card-section>
-              <q-card-section class="text-center q-pt-none">
-                <p v-if="errorMessage" class="error-message">
-                  {{ errorMessage }}
-                </p>
-              </q-card-section>
-            </q-card>
+  <div id="q-app" class="flex bg-gray">
+    <div class="login-form-container">
+      <q-card class="q-pa-md shadow-2 my_card" bordered>
+        <q-card-section class="text-center">
+          <div class="text-grey-9 text-h5 text-weight-bold">
+            Registrar
           </div>
-          <div class="image-container">
-            <img src="@/assets/images/signUp.svg" alt="Sign Up Image" class="sign-up-image">
+          <div class="text-grey-8">
+            Preencha os campos abaixo para criar sua conta
           </div>
-        </q-page>
-      </q-page-container>
-    </q-layout>
+        </q-card-section>
+        <q-card-section>
+          <QForm @submit.prevent="handleRegister">
+            <QInput v-model="name" dense outlined label="Nome" required />
+            <QInput v-model="email" dense outlined type="email" label="Email" required />
+            <QInput v-model="password" dense outlined type="password" label="Senha" required />
+            <QInput v-model="confirmPassword" dense outlined type="password" label="Confirmar Senha" required />
+            <QBtn style="border-radius: 8px;" color="primary" rounded size="md" label="Registrar" no-caps
+              class="full-width q-mt-md" type="submit" />
+          </QForm>
+        </q-card-section>
+        <q-card-section class="text-center q-pt-none">
+          <div class="text-grey-8">
+            Já tem uma conta?
+            <a href="/login" class="text-dark text-weight-bold" style="text-decoration: none">Faça login.</a>
+          </div>
+        </q-card-section>
+        <q-card-section class="text-center q-pt-none">
+          <p v-if="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </p>
+        </q-card-section>
+      </q-card>
+    </div>
+    <div class="login-image-container">
+      <img src="@/assets/images/signUp.svg" alt="Sign Up Image" class="login-image">
+    </div>
   </div>
 </template>
 
 <style scoped>
-.page-container {
-    display: flex;
-    width: 100%;
-    height: 100vh;
+#q-app {
+  height: 100vh;
 }
 
-.form-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 50%;
-    height: 100%;
-    padding: 20px;
+.login-form-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.image-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 50%;
-    height: 100%;
-    background-color: #f5f5f5;
+.login-image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.sign-up-image {
-    max-width: 100%;
-    height: auto;
+.login-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .full-width {
-    width: 100%;
+  width: 100%;
 }
 
 .error-message {
-    color: red;
+  color: red;
 }
 </style>
