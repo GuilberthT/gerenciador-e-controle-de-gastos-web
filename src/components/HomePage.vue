@@ -15,7 +15,7 @@ async function loadExpenses() {
   }
 }
 
-onMounted(() => loadExpenses)
+onMounted(() => loadExpenses())
 </script>
 
 <template>

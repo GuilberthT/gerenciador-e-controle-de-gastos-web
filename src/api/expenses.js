@@ -13,5 +13,6 @@ export async function getExpenses() {
 
 export async function createExpense(expense) {
   const data = await axios.post('/expenses', expense)
+
   return data.data
 }

@@ -1,12 +1,17 @@
 import axios from 'axios'
-
-const token = localStorage.getItem('token')
+import Cookies from 'js-cookie'
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL_LOCAL,
-  headers: {
-    Authorization: `Bearer ${token || ''}`,
-  },
+})
+
+instance.interceptors.response.use((request) => {
+  const token = Cookies.get('token')
+
+  if (token)
+    request.headers.Authorization = `Bearer ${token}`
+
+  return request
 })
 
 export default instance
