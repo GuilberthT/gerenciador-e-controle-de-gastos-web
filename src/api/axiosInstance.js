@@ -5,13 +5,19 @@ const instance = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL_LOCAL,
 })
 
-instance.interceptors.response.use((request) => {
-  const token = Cookies.get('token')
+instance.interceptors.request.use(
+  (config) => {
+    const token = Cookies.get('token')
 
-  if (token)
-    request.headers.Authorization = `Bearer ${token}`
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
 
-  return request
-})
+    return config
+  },
+  (error) => {
+    return Promise.reject(error)
+  },
+)
 
 export default instance
