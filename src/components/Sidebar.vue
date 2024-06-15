@@ -1,13 +1,41 @@
+<script setup>
+const drawer = ref(false)
+</script>
+
 <template>
-    <div class="q-pa-md">
-        <q-page-container>
-            <q-page padding>
-                <p v-for="n in 15" :key="n">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit nihil praesentium molestias a
-                    adipisci, dolore vitae odit, quidem consequatur optio voluptates asperiores pariatur eos numquam
-                    rerum delectus commodi perferendis voluptate?
-                </p>
-            </q-page>
-        </q-page-container>
+    <div>
+      <QHeader>
+        <QToolbar>
+          <QBtn flat @click="drawer = !drawer" round dense :icon="drawer ? 'chevron_left' : 'chevron_right'" />
+          <QToolbarTitle class="text-center">Controle De Gastos</QToolbarTitle>
+        </QToolbar>
+      </QHeader>
+      <QDrawer  v-model="drawer" show-if-above :width="200" :breakpoint="500">
+        <QScrollArea class="fit">
+          <QList padding class="menu-list">
+            <QItem clickable v-ripple>
+              <QItemSection avatar>
+                  <QIcon name="inbox" />
+              </QItemSection>
+  
+              <QItemSection>
+                <RouterLink to="/expenses">Gastos</RouterLink>
+                
+              </QItemSection>
+            </QItem>
+          </QList>
+        </QScrollArea>
+      </QDrawer>
     </div>
 </template>
+
+<style scoped>
+.q-header {
+  background-color: red;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+</style>

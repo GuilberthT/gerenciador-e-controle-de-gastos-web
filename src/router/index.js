@@ -53,16 +53,6 @@ router.beforeEach((to, from, next) => {
   else {
     next()
   }
-  // else if (to.matched.some(record => record.meta.requiresVisitor)) {
-  //   const user = firebase.auth().currentUser
-  //   if (user)
-  //     next({ name: 'home' })
-  //   else
-  //     next()
-  // }
-  // else {
-  //   next()
-  // }
 })
 
 export default router
