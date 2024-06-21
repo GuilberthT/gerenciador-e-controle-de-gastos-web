@@ -1,5 +1,5 @@
 <script setup>
-import Sidebar from '@/components/Sidebar.vue';
+import Sidebar from '@/components/SidebarPage.vue';
 
 const route = useRoute()
 console.log(route)

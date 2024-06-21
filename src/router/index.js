@@ -3,6 +3,8 @@ import Cookies from 'js-cookie'
 import LoginPage from '../pages/login/LoginPage.vue'
 import RegisterPage from '../pages/register/RegisterPage.vue'
 import HomeView from '@/pages/home/HomeView.vue'
+import ExpensesPage from '@/pages/expenses/components/ExpensesPage.vue'
+import IncomePage from '@/pages/incomes/components/IncomePage.vue'
 
 const routes = [
   {
@@ -29,6 +31,22 @@ const routes = [
       requiresAuth: false,
     },
   },
+  {
+    path: '/expenses',
+    name: 'Expenses',
+    component: ExpensesPage,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
+    path: '/incomes',
+    name: 'Incomes',
+    component: IncomePage,
+    meta: {
+      requiresAuth: true,
+    },
+  },
 ]
 
 const router = createRouter({
@@ -37,20 +55,17 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(rec => rec.meta.requiresAuth)) {
-    // check auth state of user
+  if (to.matched.some((rec) => rec.meta.requiresAuth)) {
     const token = Cookies.get('token')
-
-    if (token)
+    if (token) {
       next()
-    else next({ name: 'Login' })
-  }
-  else if (to.name === 'Login') {
+    } else {
+      next({ name: 'Login' })
+    }
+  } else if (to.name === 'Login') {
     Cookies.remove('token')
-
     next()
-  }
-  else {
+  } else {
     next()
   }
 })
