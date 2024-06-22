@@ -15,6 +15,7 @@ export default defineConfig({
     }),
     VueDevTools(),
     quasar({
+      autoImportComponentCase: 'pascal',
       sassVariables: 'src/quasar-variables.sass',
     }),
     Components({
@@ -86,6 +87,7 @@ export default defineConfig({
       imports: [
         'vue',
         'vue-router',
+        'quasar',
         {
           'axios': [
             // default imports

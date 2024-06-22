@@ -21,26 +21,22 @@ function irParaPerfil() {
 </script>
 
 <template>
-  <QLayout>
-    <QHeader elevated>
-      <QToolbar class="bg-green-7">
-        <QToolbarTitle>
-          <img src="path/to/logo.png" alt="Controle de Gastos" height="35" />
-        </QToolbarTitle>
-        <QBtn flat label="visão geral" @click="irPara('Home')" class="text-white" />
-        <QBtn flat label="gastos" @click="irPara('Expenses')" class="text-white" />
-        <QBtn flat label="relatórios" @click="irPara('relatorios')" class="text-white" />
-        <QBtn flat label="Rendas" @click="irPara('Incomes')" class="text-white" />
-        <QSpace />
-        <QBtn flat round icon="settings" class="text-white" @click="irParaConfiguracoes" />
-        <QBtn flat round icon="notifications" class="text-white" @click="irParaNotificacoes" />
-        <QBtn flat round icon="account_circle" class="text-white" @click="irParaPerfil" />
-      </QToolbar>
-    </QHeader>
-    <QPageContainer>
-      <router-view />
-    </QPageContainer>
-  </QLayout>
+  <QHeader elevated>
+    <QToolbar class="bg-green-7">
+      <QToolbarTitle>
+        <!-- <img src="path/to/logo.png" height="35" /> -->
+        <span>Controle de Gastos</span>
+      </QToolbarTitle>
+      <QBtn flat label="visão geral" @click="irPara('Home')" class="text-white" />
+      <QBtn flat label="gastos" @click="irPara('Expenses')" class="text-white" />
+      <QBtn flat label="relatórios" @click="irPara('relatorios')" class="text-white" />
+      <QBtn flat label="Rendas" @click="irPara('Incomes')" class="text-white" />
+      <QSpace />
+      <QBtn flat round icon="settings" class="text-white" @click="irParaConfiguracoes" />
+      <QBtn flat round icon="notifications" class="text-white" @click="irParaNotificacoes" />
+      <QBtn flat round icon="account_circle" class="text-white" @click="irParaPerfil" />
+    </QToolbar>
+  </QHeader>
 </template>
 
 <style scoped>

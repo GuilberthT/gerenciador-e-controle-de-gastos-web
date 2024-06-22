@@ -2,16 +2,22 @@
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getExpenses } from '@/api/expenses.js'
+import { Notify } from 'quasar';
+import ExpenseDailog from '@/components/ExpenseDialog.vue' 
 
 const expenses = ref([])
 const router = useRouter()
 const greeting = ref('')
+const expenseModal = ref(false)
 
 function setGreeting() {
   const hour = new Date().getHours()
+  
   if (hour < 12) {
     greeting.value = 'Bom Dia 🌞'
-  } else {
+  } else if (hour > 13 && hour < 18) {
+    greeting.value = 'Boa tarde 🌞'
+  }else {
     greeting.value = 'Boa Noite 🌛'
   }
 }
@@ -20,6 +26,11 @@ async function loadExpenses() {
   try {
     expenses.value = await getExpenses()
   } catch (error) {
+    Notify.create({
+      message: error,
+      color: 'negative',
+      textColor: 'white',
+    })
     router.push('/login')
   }
 }
@@ -31,6 +42,7 @@ onMounted(() => {
 </script>
 
 <template>
+  <ExpenseDailog v-model="expenseModal"/>
   <QPage class="bg-light">
     <QCard class="q-ma-md" flat bordered style="max-width: 1000px; margin: auto;">
       <QCardSection class="text-h6">
@@ -63,7 +75,7 @@ onMounted(() => {
       <QCardSection>
         <div class="text-h6 q-mb-md">Acesso rápido</div>
         <div class="row justify-around">
-          <QBtn round color="red" icon="remove_circle" label="DESPESA" />
+          <QBtn round color="red" icon="remove_circle" label="DESPESA" @click="expenseModal = true"/>
           <QBtn round color="green" icon="add_circle" label="RECEITA" />
           <QBtn round color="grey" icon="sync_alt" label="TRANSF." />
           <QBtn round color="blue" icon="link" label="IMPORTAR" />
