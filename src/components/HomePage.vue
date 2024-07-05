@@ -4,11 +4,13 @@ import { useRouter } from 'vue-router'
 import { getExpenses } from '@/api/expenses.js'
 import { Notify } from 'quasar';
 import ExpenseDailog from '@/components/ExpenseDialog.vue' 
+import IncomeDialog from '@/components/IncomeDialog.vue'
 
 const expenses = ref([])
 const router = useRouter()
 const greeting = ref('')
 const expenseModal = ref(false)
+const incomeModal = ref(false)
 
 function setGreeting() {
   const hour = new Date().getHours()
@@ -43,6 +45,7 @@ onMounted(() => {
 
 <template>
   <ExpenseDailog v-model="expenseModal"/>
+  <IncomeDialog v-model="incomeModal"/>
   <QPage class="bg-light">
     <QCard class="q-ma-md" flat bordered style="max-width: 1000px; margin: auto;">
       <QCardSection class="text-h6">
@@ -75,10 +78,10 @@ onMounted(() => {
       <QCardSection>
         <div class="text-h6 q-mb-md">Acesso rápido</div>
         <div class="row justify-around">
-          <QBtn round color="red" icon="remove_circle" label="DESPESA" @click="expenseModal = true"/>
-          <QBtn round color="green" icon="add_circle" label="RECEITA" />
-          <QBtn round color="grey" icon="sync_alt" label="TRANSF." />
-          <QBtn round color="blue" icon="link" label="IMPORTAR" />
+          <QBtn color="red" icon="remove_circle" label="DESPESA" @click="expenseModal = true"/>
+          <QBtn color="green" icon="add_circle" label="RECEITA" @click="incomeModal = true"/>
+          <QBtn color="grey" icon="sync_alt" label="TRANSF." />
+          <QBtn color="blue" icon="link" label="IMPORTAR" />
         </div>
       </QCardSection>
       <QSeparator />
@@ -110,16 +113,14 @@ onMounted(() => {
       </QCardSection>
     </QCard>
   </QPage>
+
 </template>
 
 <style scoped>
-.bg-light {
-  background-color: #f9f9f9;
+.bg-green-7 {
+  background-color: #00C853;
 }
-.q-page {
-  padding: 16px;
-}
-.text-bold {
-  font-weight: bold;
+.text-white {
+  color: white;
 }
 </style>
