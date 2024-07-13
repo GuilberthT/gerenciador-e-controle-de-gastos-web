@@ -55,17 +55,20 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((rec) => rec.meta.requiresAuth)) {
+  if (to.matched.some(rec => rec.meta.requiresAuth)) {
     const token = Cookies.get('token')
     if (token) {
       next()
-    } else {
+    }
+    else {
       next({ name: 'Login' })
     }
-  } else if (to.name === 'Login') {
+  }
+  else if (to.name === 'Login') {
     Cookies.remove('token')
     next()
-  } else {
+  }
+  else {
     next()
   }
 })

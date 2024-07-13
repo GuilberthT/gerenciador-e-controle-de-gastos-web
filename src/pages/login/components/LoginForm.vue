@@ -55,8 +55,10 @@ async function handleLogin() {
             <QForm @submit.prevent="handleLogin">
               <QInput v-model="email" dense outlined type="email" label="Email" required />
               <QInput v-model="password" dense outlined class="q-mt-md" type="password" label="Senha" required />
-              <QBtn style="border-radius: 8px;" color="primary" rounded size="md" label="Entrar" no-caps
-                class="full-width q-mt-md" type="submit" />
+              <QBtn
+                style="border-radius: 8px;" color="primary" rounded size="md" label="Entrar" no-caps
+                class="full-width q-mt-md" type="submit"
+              />
             </QForm>
           </QCardSection>
           <QCardSection class="text-center q-pt-none">

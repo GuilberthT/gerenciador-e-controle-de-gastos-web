@@ -7,5 +7,6 @@ export async function getIncomes() {
 
 export async function createIncome(income) {
   const data = await axios.post('/incomes', income)
+
   return data.data
 }

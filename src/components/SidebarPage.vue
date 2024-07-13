@@ -27,10 +27,10 @@ function irParaPerfil() {
         <!-- <img src="path/to/logo.png" height="35" /> -->
         <span>Controle de Gastos</span>
       </QToolbarTitle>
-      <QBtn flat label="visão geral" @click="irPara('Home')" class="text-white" />
-      <QBtn flat label="gastos" @click="irPara('Expenses')" class="text-white" />
-      <QBtn flat label="relatórios" @click="irPara('relatorios')" class="text-white" />
-      <QBtn flat label="Rendas" @click="irPara('Incomes')" class="text-white" />
+      <QBtn flat label="visão geral" class="text-white" @click="irPara('Home')" />
+      <QBtn flat label="gastos" class="text-white" @click="irPara('Expenses')" />
+      <QBtn flat label="relatórios" class="text-white" @click="irPara('relatorios')" />
+      <QBtn flat label="Rendas" class="text-white" @click="irPara('Incomes')" />
       <QSpace />
       <QBtn flat round icon="settings" class="text-white" @click="irParaConfiguracoes" />
       <QBtn flat round icon="notifications" class="text-white" @click="irParaNotificacoes" />
@@ -47,7 +47,6 @@ function irParaPerfil() {
   color: white;
 }
 </style>
-
 
 <!-- <script setup>
 const drawer = ref(false)
@@ -68,10 +67,10 @@ const drawer = ref(false)
               <QItemSection avatar>
                   <QIcon name="inbox" />
               </QItemSection>
-  
+
               <QItemSection>
                 <RouterLink to="/expenses">Gastos</RouterLink>
-                
+
               </QItemSection>
             </QItem>
           </QList>
