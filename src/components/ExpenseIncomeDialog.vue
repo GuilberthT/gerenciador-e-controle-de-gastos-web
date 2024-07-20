@@ -23,7 +23,7 @@ async function handleCreateExpense() {
     description: description.value,
     value: value.value,
     [registerType]: selectedType.value,
-    paymentDate: expenseDate.value,
+    date: expenseDate.value,
   }
 
   emit('handleCreate', createData)
@@ -62,7 +62,7 @@ function closeDialog() {
 
         <div class="q-gutter-md" style="max-width: 300px">
           <QSelect
-            v-model="selectedType" :options="selectData" label="Categoria" option-label="description"
+            v-model="selectedType" :options="selectData" label="Categoria" option-label="label"
             option-value="_id" emit-value map-options
           />
         </div>

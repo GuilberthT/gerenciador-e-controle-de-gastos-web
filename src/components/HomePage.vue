@@ -1,24 +1,17 @@
 <script setup>
 import { onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
-import { Notify } from 'quasar'
-import dayjs from 'dayjs'
+import { useQuery } from '@tanstack/vue-query'
 import { getExpenses } from '@/api/expenses.js'
 import { getIncomes } from '@/api/income.js'
 import ExpenseDailog from '@/components/ExpenseDialog.vue'
 import IncomeDialog from '@/components/IncomeDialog.vue'
+import { getTotalExpenses } from '@/api/report'
 
-const expenses = ref([])
-const incomes = ref([])
-const router = useRouter()
 const greeting = ref('')
 const expenseModal = ref(false)
 const incomeModal = ref(false)
 
-const totalExpenses = ref(0)
 const totalBalance = ref(0)
-const monthlyIncome = ref(0)
-const monthlyExpense = ref(0)
 
 function setGreeting() {
   const hour = new Date().getHours()
@@ -34,75 +27,33 @@ function setGreeting() {
   }
 }
 
-async function loadExpenses() {
-  try {
-    expenses.value = await getExpenses()
-    calculateTotals()
-  }
-  catch (error) {
-    Notify.create({
-      message: error,
-      color: 'negative',
-      textColor: 'white',
-    })
-    router.push('/login')
-  }
-}
+const { data: dataTotalExpenses, isLoading: isLoadingTotalExpenses } = useQuery({
+  queryKey: ['get-total-expenses'],
+  queryFn: () => getTotalExpenses(7),
+})
 
-async function loadIncomes() {
-  try {
-    incomes.value = await getIncomes()
-    calculateTotals()
-  }
-  catch (error) {
-    Notify.create({
-      message: error,
-      color: 'negative',
-      textColor: 'white',
-    })
-    router.push('/login')
-  }
-}
+const { data: dataIncome, isLoading: isLoadingIncomes } = useQuery({
+  queryKey: ['get-incomes'],
+  queryFn: getIncomes,
+})
 
-function calculateTotals() {
-  const month = dayjs().month() + 1
-  const year = dayjs().year()
+// const { data: dataExpense, isLoading: isLoadingExpenses } = useQuery({
+//   queryKey: ['get-expense'],
+//   queryFn: getExpenses,
+// })
 
-  let totalExp = 0
-  let totalInc = 0
-  let monthlyExp = 0
-  let monthlyInc = 0
+const totalIncomes = computed(() => {
+  let incomeValue = 0
 
-  expenses.value.forEach((expense) => {
-    if (typeof expense.amount === 'number' && dayjs(expense.paymentDate).isValid()) {
-      totalExp += expense.amount
-      const expenseDate = dayjs(expense.paymentDate)
-      if (expenseDate.month() + 1 === month && expenseDate.year() === year) {
-        monthlyExp += expense.amount
-      }
-    }
+  dataIncome.value?.forEach((income) => {
+    incomeValue = incomeValue + income.value
   })
 
-  incomes.value.forEach((income) => {
-    if (typeof income.amount === 'number' && dayjs(income.paymentDate).isValid()) {
-      totalInc += income.amount
-      const incomeDate = dayjs(income.paymentDate)
-      if (incomeDate.month() + 1 === month && incomeDate.year() === year) {
-        monthlyInc += income.amount
-      }
-    }
-  })
-
-  totalExpenses.value = totalExp
-  totalBalance.value = totalInc - totalExp
-  monthlyIncome.value = monthlyInc
-  monthlyExpense.value = monthlyExp
-}
+  return incomeValue
+})
 
 onMounted(() => {
   setGreeting()
-  loadExpenses()
-  loadIncomes()
 })
 </script>
 
@@ -125,8 +76,8 @@ onMounted(() => {
               <div class="text-caption">
                 Receita mensal
               </div>
-              <div class="text-subtitle1 text-green">
-                R$ {{ monthlyIncome.toFixed(2) }}
+              <div v-show="!isLoadingIncomes" class="text-subtitle1 text-green">
+                R$ {{ totalIncomes }}
               </div>
             </QCard>
           </div>
@@ -135,8 +86,8 @@ onMounted(() => {
               <div class="text-caption">
                 Despesa mensal
               </div>
-              <div class="text-subtitle1 text-red">
-                R$ {{ monthlyExpense.toFixed(2) }}
+              <div v-if="!isLoadingTotalExpenses" class="text-subtitle1 text-red">
+                R$ {{ dataTotalExpenses.total }}
               </div>
             </QCard>
           </div>
@@ -166,8 +117,8 @@ onMounted(() => {
                 <div class="text-subtitle1">
                   Despesas gerais
                 </div>
-                <div class="text-h5 text-green">
-                  R$ {{ totalExpenses.toFixed(2) }}
+                <div v-if="!isLoadingTotalExpenses" class="text-h5 text-green">
+                  R$ {{ dataTotalExpenses.total }}
                 </div>
               </QCardSection>
               <QCardSection>
@@ -182,7 +133,7 @@ onMounted(() => {
                   Saldo Total
                 </div>
                 <div class="text-h5 text-green">
-                  R$ {{ totalBalance.toFixed(2) }}
+                  R$ {{ totalBalance }}
                 </div>
               </QCardSection>
               <QCardSection>
@@ -200,6 +151,7 @@ onMounted(() => {
 .bg-green-7 {
   background-color: #00C853;
 }
+
 .text-white {
   color: white;
 }
