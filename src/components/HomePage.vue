@@ -1,34 +1,16 @@
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue'
-import { useQuery, useQueryClient } from '@tanstack/vue-query'
+import { useQuery } from '@tanstack/vue-query'
 import { QBtn, QCard, QCardSection, QPage, QSelect, QSeparator } from 'quasar'
-import { getExpenses } from '@/api/expenses.js'
-import { getIncomes, getTotalIncomes } from '@/api/income.js'
+import { getTotalIncomes } from '@/api/income.js'
 import ExpenseDialog from '@/components/ExpenseDialog.vue'
 import IncomeDialog from '@/components/IncomeDialog.vue'
 import { getTotalExpenses } from '@/api/report.js'
+import { months } from '@/constants/months'
 
 const greeting = ref('')
 const expenseModal = ref(false)
 const incomeModal = ref(false)
 const selectedMonth = ref(new Date().getMonth() + 1)
-
-const months = [
-  { label: 'Janeiro', value: 1 },
-  { label: 'Fevereiro', value: 2 },
-  { label: 'Março', value: 3 },
-  { label: 'Abril', value: 4 },
-  { label: 'Maio', value: 5 },
-  { label: 'Junho', value: 6 },
-  { label: 'Julho', value: 7 },
-  { label: 'Agosto', value: 8 },
-  { label: 'Setembro', value: 9 },
-  { label: 'Outubro', value: 10 },
-  { label: 'Novembro', value: 11 },
-  { label: 'Dezembro', value: 12 },
-]
-
-const totalBalance = ref(0)
 
 function setGreeting() {
   const hour = new Date().getHours()
@@ -44,25 +26,26 @@ function setGreeting() {
   }
 }
 
-const queryClient = useQueryClient()
-
-const { data: dataTotalExpenses, isLoading: isLoadingTotalExpenses } = useQuery({
+const { data: dataTotalExpenses, isPending: isLoadingTotalExpenses } = useQuery({
   queryKey: ['get-total-expenses', selectedMonth],
   queryFn: () => getTotalExpenses(selectedMonth.value),
 })
 
-const { data: dataTotalIncomes, isLoading: isLoadingTotalIncomes } = useQuery({
+const { data: dataTotalIncomes, isPending: isLoadingTotalIncomes } = useQuery({
   queryKey: ['get-total-incomes', selectedMonth],
   queryFn: () => getTotalIncomes(selectedMonth.value),
 })
 
-onMounted(() => {
-  setGreeting()
+const differenceIncomesByExpenses = computed(() => {
+  if (isLoadingTotalExpenses.value || isLoadingTotalIncomes.value) {
+    return 0
+  }
+
+  return dataTotalIncomes.value.total - dataTotalExpenses.value.total
 })
 
-watch(selectedMonth, () => {
-  queryClient.invalidateQueries(['get-total-expenses'])
-  queryClient.invalidateQueries(['get-total-incomes'])
+onMounted(() => {
+  setGreeting()
 })
 </script>
 
@@ -81,11 +64,7 @@ watch(selectedMonth, () => {
       <QCardSection>
         <div class="row">
           <div class="col">
-            <QSelect
-              v-model="selectedMonth"
-              :options="months"
-              label="Selecione o mês"
-            />
+            <QSelect v-model="selectedMonth" :options="months" label="Selecione o mês" emit-value map-options />
           </div>
         </div>
         <div class="row">
@@ -95,7 +74,7 @@ watch(selectedMonth, () => {
                 Receita mensal
               </div>
               <div v-show="!isLoadingTotalIncomes" class="text-subtitle1 text-green">
-                R$ {{ dataTotalIncomes }}
+                R$ {{ dataTotalIncomes?.total }}
               </div>
             </QCard>
           </div>
@@ -150,8 +129,11 @@ watch(selectedMonth, () => {
                 <div class="text-subtitle1">
                   Saldo Total
                 </div>
-                <div class="text-h5 text-green">
-                  R$ {{ totalBalance }}
+                <div
+                  v-if="!isLoadingTotalIncomes || !isLoadingTotalExpenses"
+                  :class="`text-h5 ${differenceIncomesByExpenses >= 0 ? 'text-green' : 'text-red'}`"
+                >
+                  R$ {{ differenceIncomesByExpenses }}
                 </div>
               </QCardSection>
               <QCardSection>

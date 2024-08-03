@@ -1,11 +1,13 @@
 <script setup>
-import { useMutation, useQuery } from '@tanstack/vue-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { Notify } from 'quasar'
 import ExpenseIncomeDialog from '@/components/ExpenseIncomeDialog.vue'
 import { getIncomeTypes } from '@/api/incomeTypes'
 import { createIncome } from '@/api/income'
 
 const expenseModal = defineModel({ type: Boolean })
+
+const queryClient = useQueryClient()
 
 const { data } = useQuery({
   queryKey: ['income-types'],
@@ -17,6 +19,8 @@ const { mutate } = useMutation({
   onSuccess: () => {
     expenseModal.value = false
 
+    queryClient.invalidateQueries({ queryKey: ['get-total-incomes'] })
+
     Notify.create({
       message: 'Receita registrada com sucesso!',
       color: 'positive',
@@ -27,5 +31,8 @@ const { mutate } = useMutation({
 </script>
 
 <template>
-  <ExpenseIncomeDialog v-model="expenseModal" type="income" title="Receita" :select-data="data" @handle-create="mutate($event)" />
+  <ExpenseIncomeDialog
+    v-model="expenseModal" type="income" title="Receita" :select-data="data"
+    @handle-create="mutate($event)"
+  />
 </template>

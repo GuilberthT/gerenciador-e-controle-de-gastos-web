@@ -62,7 +62,7 @@ function closeDialog() {
 
         <div class="q-gutter-md" style="max-width: 300px">
           <QSelect
-            v-model="selectedType" :options="selectData" label="Categoria" option-label="label"
+            v-model="selectedType" :options="selectData" label="Categoria" option-label="description"
             option-value="_id" emit-value map-options
           />
         </div>

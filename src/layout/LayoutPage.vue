@@ -2,7 +2,6 @@
 import Sidebar from '@/components/SidebarPage.vue'
 
 const route = useRoute()
-console.log(route)
 </script>
 
 <template>
