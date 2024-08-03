@@ -1,12 +1,12 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, ref, watch } from 'vue'
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import { QBtn, QCard, QCardSection, QPage, QSelect, QSeparator } from 'quasar'
 import { getExpenses } from '@/api/expenses.js'
 import { getIncomes, getTotalIncomes } from '@/api/income.js'
 import ExpenseDialog from '@/components/ExpenseDialog.vue'
 import IncomeDialog from '@/components/IncomeDialog.vue'
-import { getTotalExpenses } from '@/api/report'
+import { getTotalExpenses } from '@/api/report.js'
 
 const greeting = ref('')
 const expenseModal = ref(false)
