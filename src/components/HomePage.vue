@@ -64,7 +64,7 @@ onMounted(() => {
       <QCardSection>
         <div class="row">
           <div class="col">
-            <QSelect v-model="selectedMonth" :options="months" label="Selecione o mês" emit-value map-options />
+            <QSelect v-model="selectedMonth" :options="months" outlined dense label="Selecione o mês" emit-value map-options class="custom-select" />
           </div>
         </div>
         <div class="row">
@@ -87,9 +87,6 @@ onMounted(() => {
                 R$ {{ dataTotalExpenses.total }}
               </div>
             </QCard>
-          </div>
-          <div class="col">
-            <QBtn flat label="ver relatórios" class="q-mt-md full-width" icon="trending_up" />
           </div>
         </div>
       </QCardSection>
@@ -154,5 +151,33 @@ onMounted(() => {
 
 .text-white {
   color: white;
+}
+
+.custom-select {
+  color: #000;
+  background-color: #fff;
+  border: 1px solid #4CAF50;
+  border-radius: 8px;
+}
+
+.custom-select .q-field__native {
+  color: #000;
+}
+
+.custom-select .q-field__label {
+  color: #4CAF50;
+}
+
+.custom-select .q-field--focused .q-field__control {
+  border-color: #4CAF50;
+}
+
+.custom-select .q-item__label {
+  color: #000;
+}
+
+.custom-select .q-item__active {
+  background-color: #4CAF50;
+  color: #fff;
 }
 </style>
