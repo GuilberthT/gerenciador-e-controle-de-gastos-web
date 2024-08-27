@@ -1,15 +1,15 @@
-import axios from 'axios'
+import axios, { InternalAxiosRequestConfig } from 'axios'
 import Cookies from 'js-cookie'
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL_LOCAL,
+  baseURL: import.meta.env.VITE_BASE_URL_LOCAL as string
 })
 
 instance.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     const token = Cookies.get('token')
 
-    if (token) {
+    if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`
     }
 
@@ -17,7 +17,7 @@ instance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error)
-  },
+  }
 )
 
 export default instance
