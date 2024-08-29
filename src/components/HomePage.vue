@@ -1,50 +1,61 @@
-<script setup>
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
-import { QBtn, QCard, QCardSection, QPage, QSelect, QSeparator } from 'quasar'
 import { getTotalIncomes } from '@/api/income.js'
 import ExpenseDialog from '@/components/ExpenseDialog.vue'
 import IncomeDialog from '@/components/IncomeDialog.vue'
 import { getTotalExpenses } from '@/api/report.js'
 import { months } from '@/constants/months'
 
-const greeting = ref('')
-const expenseModal = ref(false)
-const incomeModal = ref(false)
-const selectedMonth = ref(new Date().getMonth() + 1)
+interface IncomeData {
+  total:number
+}
 
-function setGreeting() {
+interface ExpenseData {
+  total: number
+}
+
+const greeting = ref<string>('')
+const expenseModal = ref<boolean>(false)
+const incomeModal = ref<boolean> (false)
+const selectedMonth = ref<number>(new Date(). getMonth() + 1)
+
+function setGreeting(): void {
   const hour = new Date().getHours()
 
   if (hour < 12) {
-    greeting.value = 'Bom Dia 🌞'
-  }
-  else if (hour > 13 && hour < 18) {
+    greeting.value = 'Bom dia'
+  } else if (hour >= 12 && hour < 18) {
     greeting.value = 'Boa tarde 🌞'
-  }
-  else {
+  } else {
     greeting.value = 'Boa Noite 🌛'
   }
 }
 
-const { data: dataTotalExpenses, isPending: isLoadingTotalExpenses } = useQuery({
+const { data: dataTotalExpenses, isPending: isLoadingTotalExpenses } = useQuery<ExpenseData>({
   queryKey: ['get-total-expenses', selectedMonth],
   queryFn: () => getTotalExpenses(selectedMonth.value),
 })
 
-const { data: dataTotalIncomes, isPending: isLoadingTotalIncomes } = useQuery({
+const { data: dataTotalIncomes, isPending: isLoadingTotalIncomes } = useQuery<IncomeData>({
   queryKey: ['get-total-incomes', selectedMonth],
   queryFn: () => getTotalIncomes(selectedMonth.value),
 })
 
-const differenceIncomesByExpenses = computed(() => {
-  if (isLoadingTotalExpenses.value || isLoadingTotalIncomes.value) {
+const differenceIncomesByExpenses = computed<number>(() => {
+  if (isLoadingTotalExpenses.value || isLoadingTotalIncomes.value || !dataTotalIncomes.value || !dataTotalExpenses.value) {
     return 0
   }
 
   return dataTotalIncomes.value.total - dataTotalExpenses.value.total
 })
 
-onMounted(() => {
+// Função para formatação monetária
+const formatCurrency = (value: number): string => {
+  return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+}
+
+onMounted((): void => {
   setGreeting()
 })
 </script>
@@ -74,7 +85,7 @@ onMounted(() => {
                 Receita mensal
               </div>
               <div v-show="!isLoadingTotalIncomes" class="text-subtitle1 text-green">
-                R$ {{ dataTotalIncomes?.total }}
+                {{ formatCurrency(dataTotalIncomes?.total || 0) }}
               </div>
             </QCard>
           </div>
@@ -84,7 +95,7 @@ onMounted(() => {
                 Despesa mensal
               </div>
               <div v-if="!isLoadingTotalExpenses" class="text-subtitle1 text-red">
-                R$ {{ dataTotalExpenses.total }}
+                {{ formatCurrency(dataTotalExpenses?.total || 0) }}
               </div>
             </QCard>
           </div>
@@ -112,7 +123,7 @@ onMounted(() => {
                   Despesas gerais
                 </div>
                 <div v-if="!isLoadingTotalExpenses" class="text-h5 text-green">
-                  R$ {{ dataTotalExpenses.total }}
+                  {{ formatCurrency(dataTotalExpenses?.total || 0) }}
                 </div>
               </QCardSection>
               <QCardSection>
@@ -130,7 +141,7 @@ onMounted(() => {
                   v-if="!isLoadingTotalIncomes || !isLoadingTotalExpenses"
                   :class="`text-h5 ${differenceIncomesByExpenses >= 0 ? 'text-green' : 'text-red'}`"
                 >
-                  R$ {{ differenceIncomesByExpenses }}
+                  {{ formatCurrency(differenceIncomesByExpenses) }}
                 </div>
               </QCardSection>
               <QCardSection>

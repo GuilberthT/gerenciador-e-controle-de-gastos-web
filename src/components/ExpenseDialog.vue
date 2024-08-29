@@ -1,24 +1,29 @@
-<script setup>
+<script setup lang="ts">
 import { useMutation, useQuery } from '@tanstack/vue-query'
 import { Notify } from 'quasar'
 import ExpenseIncomeDialog from '@/components/ExpenseIncomeDialog.vue'
 import { getExpensesTypes } from '@/api/expensesTypes'
 import { createExpense } from '@/api/expenses'
 
+interface ExpenseType {
+  id: number;
+  name: string;
+}
+
 const expenseModal = defineModel({ type: Boolean })
 
-const { data } = useQuery({
+const { data } = useQuery<ExpenseType[]>({
   queryKey: ['expense-types'],
   queryFn: getExpensesTypes,
 })
 
 const { mutate } = useMutation({
-  mutationFn: data => createExpense(data),
+  mutationFn: (expense: any) => createExpense(expense),
   onSuccess: () => {
-    expenseModal.value = false
+    expenseModal.value = false 
 
     Notify.create({
-      message: 'Despensa registrada com sucesso!',
+      message: 'Despesa registrada com sucesso!',
       color: 'positive',
       textColor: 'white',
     })

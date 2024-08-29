@@ -1,37 +1,48 @@
-<script setup>
+<script setup lang="ts">
+import { ref } from "vue"
 import InputDate from './InputDate.vue'
 
-const props = defineProps({
-  selectData: Array,
-  title: String,
-  type: String,
-})
+interface SelectOption {
+  _id: string;
+  description: string;
+}
+
+const props = defineProps<{
+  selectData: SelectOption[];
+  title: string;
+  type: 'income' | 'expense';
+}>()
 
 const emit = defineEmits(['handleCreate'])
 
-const expenseModal = defineModel({ type: Boolean })
+const expenseModal = ref(false)
 
 const description = ref('')
-const value = ref(0)
+const value = ref<number | null>(null)
 const expenseDate = ref('')
-const selectedType = ref(null)
+const selectedType = ref<SelectOption | null>(null)
 
 async function handleCreateExpense() {
+  if (!description.value || !value.value || !selectedType.value || !expenseDate.value) {
+    alert('Preencha todos os campos')
+    return
+  }
   const registerType = props.type === 'income' ? 'incomeType' : 'expenseType'
 
   const createData = {
     description: description.value,
     value: value.value,
-    [registerType]: selectedType.value,
+    [registerType]: selectedType.value._id,
     date: expenseDate.value,
   }
 
   emit('handleCreate', createData)
+  resetFields() 
 }
 
 function resetFields() {
   description.value = ''
-  value.value = 0
+  value.value = null
   expenseDate.value = ''
   selectedType.value = null
 }
@@ -47,7 +58,7 @@ function closeDialog() {
     <QCard style="min-width: 350px">
       <QCardSection>
         <div class="text-h6">
-          Lançar {{ title }}
+          Lançar {{ title }} 
         </div>
       </QCardSection>
 
@@ -62,8 +73,13 @@ function closeDialog() {
 
         <div class="q-gutter-md" style="max-width: 300px">
           <QSelect
-            v-model="selectedType" :options="selectData" label="Categoria" option-label="description"
-            option-value="_id" emit-value map-options
+            v-model="selectedType"
+            :options="selectData"
+            label="Categoria"
+            option-label="description"
+            option-value="_id"
+            emit-value
+            map-options
           />
         </div>
 
