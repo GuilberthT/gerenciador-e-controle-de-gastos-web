@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
 import { getTotalIncomes } from '@/api/income.js'
 import ExpenseDialog from '@/components/ExpenseDialog.vue'
@@ -8,7 +8,7 @@ import { getTotalExpenses } from '@/api/report.js'
 import { months } from '@/constants/months'
 
 interface IncomeData {
-  total:number
+  total: number
 }
 
 interface ExpenseData {
@@ -18,16 +18,18 @@ interface ExpenseData {
 const greeting = ref<string>('')
 const expenseModal = ref<boolean>(false)
 const incomeModal = ref<boolean> (false)
-const selectedMonth = ref<number>(new Date(). getMonth() + 1)
+const selectedMonth = ref<number>(new Date().getMonth() + 1)
 
 function setGreeting(): void {
   const hour = new Date().getHours()
 
   if (hour < 12) {
     greeting.value = 'Bom dia'
-  } else if (hour >= 12 && hour < 18) {
+  }
+  else if (hour >= 12 && hour < 18) {
     greeting.value = 'Boa tarde 🌞'
-  } else {
+  }
+  else {
     greeting.value = 'Boa Noite 🌛'
   }
 }
@@ -51,7 +53,7 @@ const differenceIncomesByExpenses = computed<number>(() => {
 })
 
 // Função para formatação monetária
-const formatCurrency = (value: number): string => {
+function formatCurrency(value: number): string {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
 }
 
