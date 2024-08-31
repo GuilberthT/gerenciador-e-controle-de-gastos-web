@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 </script>
 
 <template>
@@ -28,3 +28,4 @@
   align-items: center;
 }
 </style>
+

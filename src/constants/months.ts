@@ -1,4 +1,9 @@
-export const months = [
+interface Month {
+  label: string;
+  value: number;
+}
+
+export const months: Month[] = [
   { label: 'Janeiro', value: 1 },
   { label: 'Fevereiro', value: 2 },
   { label: 'Março', value: 3 },

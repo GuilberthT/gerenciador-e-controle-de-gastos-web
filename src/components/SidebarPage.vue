@@ -1,9 +1,9 @@
-<script setup>
+<script setup lang="ts">
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-function irPara(pagina) {
+function irPara(pagina: string) {
   router.push({ name: pagina })
 }
 
@@ -47,3 +47,4 @@ function irParaPerfil() {
   color: white;
 }
 </style>
+

@@ -1,4 +1,5 @@
-<script setup>
+<script setup lang="ts">
+import { useRoute } from 'vue-router'
 import Sidebar from '@/components/SidebarPage.vue'
 
 const route = useRoute()
@@ -6,7 +7,7 @@ const route = useRoute()
 
 <template>
   <QLayout view="lhh LpR lff">
-    <Sidebar v-if="route.path !== ('/login' || '/register')" />
+    <Sidebar v-if="route.path !== '/login' && route.path !== '/register'" />
     <QPageContainer>
       <QPage>
         <slot />
