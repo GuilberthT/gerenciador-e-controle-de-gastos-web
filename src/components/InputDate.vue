@@ -2,9 +2,9 @@
 import { ref } from 'vue'
 import { QDate, QInput, QPopupProxy } from 'quasar'
 
-const dateModel = ref<string>('')
+const dateModel = ref('')
 
-const popupProxy = ref<boolean>(false)
+const popupProxy = ref(false)
 </script>
 
 <template>

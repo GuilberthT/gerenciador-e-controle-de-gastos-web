@@ -15,10 +15,10 @@ interface ExpenseData {
   total: number
 }
 
-const greeting = ref<string>('')
-const expenseModal = ref<boolean>(false)
-const incomeModal = ref<boolean> (false)
-const selectedMonth = ref<number>(new Date().getMonth() + 1)
+const greeting = ref('')
+const expenseModal = ref(false)
+const incomeModal = ref(false)
+const selectedMonth = ref(new Date().getMonth() + 1)
 
 function setGreeting(): void {
   const hour = new Date().getHours()

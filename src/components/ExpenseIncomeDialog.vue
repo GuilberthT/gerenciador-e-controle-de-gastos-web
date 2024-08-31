@@ -14,7 +14,9 @@ const props = defineProps<{
   type: 'income' | 'expense'
 }>()
 
-const emit = defineEmits(['handleCreate'])
+const emit = defineEmits<{
+  (e: 'handleCreate', value: any): void
+}>()
 
 const expenseModal = ref(false)
 
