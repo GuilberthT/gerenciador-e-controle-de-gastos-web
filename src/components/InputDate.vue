@@ -1,7 +1,10 @@
-<script setup>
-const dateModel = defineModel({ type: String })
+<script setup lang="ts">
+import { ref } from 'vue'
+import { QDate, QInput, QPopupProxy } from 'quasar'
 
-const popupProxy = ref(false)
+const dateModel = ref<string>('')
+
+const popupProxy = ref<boolean>(false)
 </script>
 
 <template>
@@ -11,3 +14,4 @@ const popupProxy = ref(false)
     </QPopupProxy>
   </QInput>
 </template>
+

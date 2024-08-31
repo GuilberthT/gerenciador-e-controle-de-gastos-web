@@ -1,21 +1,27 @@
-<script setup>
+<script setup lang="ts">
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { Notify } from 'quasar'
 import ExpenseIncomeDialog from '@/components/ExpenseIncomeDialog.vue'
 import { getIncomeTypes } from '@/api/incomeTypes'
-import { createIncome } from '@/api/income'
+import { createIncome, CreateIncomePayload } from '@/api/income'
+import { ref } from 'vue'
 
-const expenseModal = defineModel({ type: Boolean })
+interface IncomeType {
+  id: number
+  name: string
+}
+
+const expenseModal = ref<boolean>(false)
 
 const queryClient = useQueryClient()
 
-const { data } = useQuery({
+const { data, error } = useQuery<IncomeType[], Error>({
   queryKey: ['income-types'],
   queryFn: getIncomeTypes,
 })
 
 const { mutate } = useMutation({
-  mutationFn: data => createIncome(data),
+  mutationFn: (data: CreateIncomePayload) => createIncome(data),
   onSuccess: () => {
     expenseModal.value = false
 
