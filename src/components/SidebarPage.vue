@@ -47,4 +47,3 @@ function irParaPerfil() {
   color: white;
 }
 </style>
-

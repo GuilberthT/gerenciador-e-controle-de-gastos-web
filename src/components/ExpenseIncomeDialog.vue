@@ -1,19 +1,22 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref } from 'vue'
+import { Notify } from 'quasar'
 import InputDate from './InputDate.vue'
 
 interface SelectOption {
-  _id: string;
-  description: string;
+  _id: string
+  description: string
 }
 
 const props = defineProps<{
-  selectData: SelectOption[];
-  title: string;
-  type: 'income' | 'expense';
+  selectData: SelectOption[]
+  title: string
+  type: 'income' | 'expense'
 }>()
 
-const emit = defineEmits(['handleCreate'])
+const emit = defineEmits<{
+  (e: 'handleCreate', value: any): void
+}>()
 
 const expenseModal = ref(false)
 
@@ -24,7 +27,11 @@ const selectedType = ref<SelectOption | null>(null)
 
 async function handleCreateExpense() {
   if (!description.value || !value.value || !selectedType.value || !expenseDate.value) {
-    alert('Preencha todos os campos')
+    Notify.create({
+      message: 'Preencha todos os campos',
+      color: 'negative',
+      textColor: 'white',
+    })
     return
   }
   const registerType = props.type === 'income' ? 'incomeType' : 'expenseType'
@@ -37,7 +44,7 @@ async function handleCreateExpense() {
   }
 
   emit('handleCreate', createData)
-  resetFields() 
+  resetFields()
 }
 
 function resetFields() {
@@ -58,7 +65,7 @@ function closeDialog() {
     <QCard style="min-width: 350px">
       <QCardSection>
         <div class="text-h6">
-          Lançar {{ title }} 
+          Lançar {{ title }}
         </div>
       </QCardSection>
 
@@ -73,13 +80,8 @@ function closeDialog() {
 
         <div class="q-gutter-md" style="max-width: 300px">
           <QSelect
-            v-model="selectedType"
-            :options="selectData"
-            label="Categoria"
-            option-label="description"
-            option-value="_id"
-            emit-value
-            map-options
+            v-model="selectedType" :options="selectData" label="Categoria" option-label="description"
+            option-value="_id" emit-value map-options
           />
         </div>
 

@@ -9,6 +9,7 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "lint:types": "vue-tsc --noEmit",
     "format": "prettier --write src/"
   },
   "dependencies": {
@@ -20,7 +21,8 @@
     "quasar": "^2.16.4",
     "vite-plugin-vercel": "^9.0.1",
     "vue": "^3.4.21",
-    "vue-router": "^4.3.0"
+    "vue-router": "^4.3.0",
+    "vue-tsc": "^2.1.5"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^2.18.1",

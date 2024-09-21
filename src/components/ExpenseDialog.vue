@@ -6,8 +6,8 @@ import { getExpensesTypes } from '@/api/expensesTypes'
 import { createExpense } from '@/api/expenses'
 
 interface ExpenseType {
-  id: number;
-  name: string;
+  id: number
+  name: string
 }
 
 const expenseModal = defineModel({ type: Boolean })
@@ -20,7 +20,7 @@ const { data } = useQuery<ExpenseType[]>({
 const { mutate } = useMutation({
   mutationFn: (expense: any) => createExpense(expense),
   onSuccess: () => {
-    expenseModal.value = false 
+    expenseModal.value = false
 
     Notify.create({
       message: 'Despesa registrada com sucesso!',

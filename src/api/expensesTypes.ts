@@ -1,8 +1,8 @@
 import axios from './axiosInstance.js'
 
 interface ExpenseType {
-  id: number;
-  name: string;
+  id: number
+  name: string
 }
 
 export async function getExpensesTypes(): Promise<ExpenseType[]> {

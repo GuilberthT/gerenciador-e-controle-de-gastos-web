@@ -1,8 +1,9 @@
-import axios, { InternalAxiosRequestConfig } from 'axios'
+import type { InternalAxiosRequestConfig } from 'axios'
+import axios from 'axios'
 import Cookies from 'js-cookie'
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL_LOCAL as string
+  baseURL: import.meta.env.VITE_BASE_URL_LOCAL as string,
 })
 
 instance.interceptors.request.use(
@@ -17,7 +18,7 @@ instance.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error)
-  }
+  },
 )
 
 export default instance

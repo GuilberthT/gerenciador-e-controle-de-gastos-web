@@ -1,6 +1,6 @@
 interface Month {
-  label: string;
-  value: number;
+  label: string
+  value: number
 }
 
 export const months: Month[] = [
