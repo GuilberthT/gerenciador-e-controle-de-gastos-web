@@ -3,7 +3,7 @@ import axios from 'axios'
 import Cookies from 'js-cookie'
 
 const instance = axios.create({
-  baseURL: import.meta.env.VITE_BASE_URL_HOMOLOG as string,
+  baseURL: 'https://gerenciador-e-controle-de-gastos.vercel.app/',
 })
 
 instance.interceptors.request.use(
