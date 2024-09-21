@@ -6,13 +6,18 @@ import { quasar, transformAssetUrls } from '@quasar/vite-plugin'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { QuasarResolver } from 'unplugin-vue-components/resolvers'
+import vercel from 'vite-plugin-vercel'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  server: {
+    port: 5173,
+  },
   plugins: [
     vue({
       template: { transformAssetUrls },
     }),
+    vercel(),
     VueDevTools(),
     quasar({
       autoImportComponentCase: 'pascal',
