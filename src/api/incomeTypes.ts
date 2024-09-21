@@ -1,4 +1,4 @@
-import axios from './axiosInstance.js'
+import axios from './axiosInstance'
 
 interface IncomeType {
   id: number

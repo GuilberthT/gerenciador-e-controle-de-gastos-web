@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue'
 import { QBtn, QCard, QCardSection, QPage, QTable } from 'quasar'
 import ExpenseDialog from '@/components/ExpenseDialog.vue'
-import { getExpenses } from '@/api/expenses.js'
+import { getExpenses } from '@/api/expenses'
 
 const expenses = ref([])
 const expenseModal = ref(false)

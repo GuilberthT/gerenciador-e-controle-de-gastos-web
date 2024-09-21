@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie'
-import axios from './axiosInstance.js'
+import axios from './axiosInstance'
 
 interface LoginData {
   username: string

@@ -1,4 +1,4 @@
-import axios from './axiosInstance.js'
+import axios from './axiosInstance'
 
 interface Expense {
   id?: number
@@ -6,6 +6,7 @@ interface Expense {
   amount: number
   category: string
   date: string
+  total: number
 }
 
 export async function getExpenses(): Promise<Expense[] | Error> {
@@ -26,4 +27,9 @@ export async function createExpense(expense: Expense): Promise<Expense | Error> 
   catch (error) {
     return error as Error
   }
+}
+
+export async function getTotalExpenses(mouth: number) {
+  const response = await axios.get<{ data: Expense }>(`/expenses/total/${mouth}`)
+  return response.data.data
 }

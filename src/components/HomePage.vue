@@ -1,19 +1,11 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
-import { getTotalIncomes } from '@/api/income.js'
+import { getTotalIncomes } from '@/api/income'
 import ExpenseDialog from '@/components/ExpenseDialog.vue'
 import IncomeDialog from '@/components/IncomeDialog.vue'
-import { getTotalExpenses } from '@/api/report.js'
 import { months } from '@/constants/months'
-
-interface IncomeData {
-  total: number
-}
-
-interface ExpenseData {
-  total: number
-}
+import { getTotalExpenses } from '@/api/expenses'
 
 const greeting = ref('')
 const expenseModal = ref(false)
@@ -34,12 +26,12 @@ function setGreeting(): void {
   }
 }
 
-const { data: dataTotalExpenses, isPending: isLoadingTotalExpenses } = useQuery<ExpenseData>({
+const { data: dataTotalExpenses, isPending: isLoadingTotalExpenses } = useQuery({
   queryKey: ['get-total-expenses', selectedMonth],
   queryFn: () => getTotalExpenses(selectedMonth.value),
 })
 
-const { data: dataTotalIncomes, isPending: isLoadingTotalIncomes } = useQuery<IncomeData>({
+const { data: dataTotalIncomes, isPending: isLoadingTotalIncomes } = useQuery({
   queryKey: ['get-total-incomes', selectedMonth],
   queryFn: () => getTotalIncomes(selectedMonth.value),
 })
