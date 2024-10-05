@@ -7,7 +7,7 @@ interface LoginData {
 }
 
 export async function login(data: LoginData): Promise<string> {
-  const response = await axios.post <{ token: string }> ('/user/login', data)
+  const response = await axios.post<{ token: string }>('/user/login', data)
 
   return response.data.token
 }

@@ -1,16 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue'
 import { QDate, QInput, QPopupProxy } from 'quasar'
+import { ref } from 'vue'
 
-const dateModel = ref('')
+const dateModel = defineModel<string>()
 
 const popupProxy = ref(false)
 </script>
 
 <template>
-  <QInput v-model="dateModel" icon="event" round color="primary" label="Data">
-    <QPopupProxy v-model="popupProxy" cover transition-show="scale" transition-hide="scale">
-      <QDate v-model="dateModel" mask="DD/MM/YYYY" @update:model-value="popupProxy = !popupProxy" />
-    </QPopupProxy>
-  </QInput>
+  <div>
+    <QInput v-model="dateModel" round label="Data">
+      <QPopupProxy v-model="popupProxy" cover transition-show="scale" transition-hide="scale">
+        <QDate v-model="dateModel" mask="DD/MM/YYYY" @update:model-value="popupProxy = !popupProxy" />
+      </QPopupProxy>
+    </QInput>
+  </div>
 </template>

@@ -5,14 +5,9 @@ import ExpenseIncomeDialog from '@/components/ExpenseIncomeDialog.vue'
 import { getExpensesTypes } from '@/api/expensesTypes'
 import { createExpense } from '@/api/expenses'
 
-interface ExpenseType {
-  id: number
-  name: string
-}
+const expenseModal = defineModel<boolean>()
 
-const expenseModal = defineModel({ type: Boolean })
-
-const { data } = useQuery<ExpenseType[]>({
+const { data } = useQuery({
   queryKey: ['expense-types'],
   queryFn: getExpensesTypes,
 })
@@ -28,9 +23,22 @@ const { mutate } = useMutation({
       textColor: 'white',
     })
   },
+  onError: (error) => {
+    Notify.create({
+      message: `Erro: ${error}`,
+      color: 'negative',
+      textColor: 'white',
+    })
+  },
 })
 </script>
 
 <template>
-  <ExpenseIncomeDialog v-model="expenseModal" type="expense" title="Despesa" :select-data="data" @handle-create="mutate($event)" />
+  <ExpenseIncomeDialog
+    v-model="expenseModal"
+    type="expense"
+    title="Despesa"
+    :select-data="data!"
+    @handle-create="mutate($event)"
+  />
 </template>

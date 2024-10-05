@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Notify } from 'quasar'
+import dayjs from 'dayjs'
 import InputDate from './InputDate.vue'
 
 interface SelectOption {
@@ -18,11 +19,11 @@ const emit = defineEmits<{
   (e: 'handleCreate', value: any): void
 }>()
 
-const expenseModal = ref(false)
+const openDialog = defineModel<boolean>()
 
 const description = ref('')
 const value = ref<number | null>(null)
-const expenseDate = ref('')
+const expenseDate = ref()
 const selectedType = ref<SelectOption | null>(null)
 
 async function handleCreateExpense() {
@@ -34,13 +35,14 @@ async function handleCreateExpense() {
     })
     return
   }
+
   const registerType = props.type === 'income' ? 'incomeType' : 'expenseType'
 
   const createData = {
     description: description.value,
     value: value.value,
-    [registerType]: selectedType.value._id,
-    date: expenseDate.value,
+    [registerType]: selectedType.value,
+    date: dayjs(expenseDate.value).format('DD/MM/YYYY'),
   }
 
   emit('handleCreate', createData)
@@ -55,13 +57,13 @@ function resetFields() {
 }
 
 function closeDialog() {
-  expenseModal.value = false
+  openDialog.value = false
   resetFields()
 }
 </script>
 
 <template>
-  <QDialog v-model="expenseModal" persistent>
+  <QDialog v-model="openDialog" persistent>
     <QCard style="min-width: 350px">
       <QCardSection>
         <div class="text-h6">

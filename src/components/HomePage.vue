@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { useQuery } from '@tanstack/vue-query'
+import InputDate from './InputDate.vue'
 import { getTotalIncomes } from '@/api/income'
 import ExpenseDialog from '@/components/ExpenseDialog.vue'
 import IncomeDialog from '@/components/IncomeDialog.vue'
@@ -69,7 +70,10 @@ onMounted((): void => {
       <QCardSection>
         <div class="row">
           <div class="col">
-            <QSelect v-model="selectedMonth" :options="months" outlined dense label="Selecione o mês" emit-value map-options class="custom-select" />
+            <QSelect
+              v-model="selectedMonth" :options="months" outlined dense label="Selecione o mês" emit-value
+              map-options class="custom-select"
+            />
           </div>
         </div>
         <div class="row">

@@ -30,6 +30,7 @@ export async function createExpense(expense: Expense): Promise<Expense | Error> 
 }
 
 export async function getTotalExpenses(mouth: number) {
-  const response = await axios.get<{ data: Expense }>(`/expenses/total/${mouth}`)
-  return response.data.data
+  const response = await axios.get<Expense>(`/expenses/total/${mouth}`)
+
+  return response.data
 }

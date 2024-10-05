@@ -1,11 +1,14 @@
 import axios from './axiosInstance'
 
-interface IncomeType {
-  id: number
-  name: string
+export interface IncomeType {
+  _id: string
+  description: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 export async function getIncomeTypes(): Promise<IncomeType[]> {
-  const response = await axios.get<{ data: IncomeType[] }> ('/incomeTypes')
-  return response.data.data
+  const response = await axios.get<IncomeType[]> ('/incomeTypes')
+
+  return response.data
 }

@@ -7,10 +7,14 @@ import { login } from '@/api/AuthService'
 const email = ref('')
 const password = ref('')
 const errorMessage = ref('')
+const loadingLogin = ref(false)
+
 const router = useRouter()
 
 async function handleLogin() {
   try {
+    loadingLogin.value = true
+
     const dataLogin = {
       email: email.value,
       password: password.value,
@@ -36,6 +40,9 @@ async function handleLogin() {
       textColor: 'white',
     })
   }
+  finally {
+    loadingLogin.value = false
+  }
 }
 </script>
 
@@ -57,8 +64,15 @@ async function handleLogin() {
               <QInput v-model="email" dense outlined type="email" label="Email" required />
               <QInput v-model="password" dense outlined class="q-mt-md" type="password" label="Senha" required />
               <QBtn
-                style="border-radius: 8px;" color="primary" rounded size="md" label="Entrar" no-caps
-                class="full-width q-mt-md" type="submit"
+                style="border-radius: 8px;"
+                color="primary"
+                size="md"
+                label="Entrar"
+                class="full-width q-mt-md"
+                type="submit"
+                :loading="loadingLogin"
+                no-caps
+                rounded
               />
             </QForm>
           </QCardSection>

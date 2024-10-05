@@ -1,11 +1,14 @@
 import axios from './axiosInstance'
 
-interface ExpenseType {
-  id: number
-  name: string
+export interface ExpenseType {
+  _id: string
+  description: string
+  createdAt?: string
+  updatedAt?: string
 }
 
 export async function getExpensesTypes(): Promise<ExpenseType[]> {
-  const response = await axios.get<{ data: ExpenseType[] }>('/expenseTypes')
-  return response.data.data
+  const response = await axios.get<ExpenseType[]>('/expenseTypes')
+
+  return response.data
 }
