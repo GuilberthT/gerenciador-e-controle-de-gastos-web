@@ -19,7 +19,7 @@ const emit = defineEmits<{
   (e: 'handleCreate', value: any): void
 }>()
 
-const openDialog = ref<boolean>()
+const openDialog = defineModel<boolean>()
 
 const description = ref('')
 const value = ref<number | null>(null)
