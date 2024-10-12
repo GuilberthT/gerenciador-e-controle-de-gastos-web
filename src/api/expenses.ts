@@ -11,8 +11,8 @@ interface Expense {
 
 export async function getExpenses(): Promise<Expense[] | Error> {
   try {
-    const response = await axios.get<{ data: Expense[] }>('/expenses')
-    return response.data.data
+    const response = await axios.get<Expense[]>('/expenses')
+    return response.data
   }
   catch (error) {
     return error as Error

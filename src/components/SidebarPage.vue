@@ -29,8 +29,8 @@ function irParaPerfil() {
       </QToolbarTitle>
       <QBtn flat label="visão geral" class="text-white" @click="irPara('Home')" />
       <QBtn flat label="despesas" class="text-white" @click="irPara('Expenses')" />
-      <QBtn flat label="comparativo" class="text-white" @click="irPara('comparativo')" />
       <QBtn flat label="receitas" class="text-white" @click="irPara('Incomes')" />
+      <QBtn flat label="comparativo" class="text-white" @click="irPara('comparativo')" />
       <QSpace />
       <QBtn flat round icon="settings" class="text-white" @click="irParaConfiguracoes" />
       <QBtn flat round icon="notifications" class="text-white" @click="irParaNotificacoes" />

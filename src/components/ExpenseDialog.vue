@@ -5,6 +5,10 @@ import ExpenseIncomeDialog from '@/components/ExpenseIncomeDialog.vue'
 import { getExpensesTypes } from '@/api/expensesTypes'
 import { createExpense } from '@/api/expenses'
 
+defineProps<{
+  description: string
+}>()
+
 const expenseModal = defineModel<boolean>()
 
 const { data } = useQuery({
