@@ -6,11 +6,7 @@ import ExpenseIncomeDialog from '@/components/ExpenseIncomeDialog.vue'
 import { getIncomeTypes } from '@/api/incomeTypes'
 import type { CreateIncomePayload } from '@/api/income'
 import { createIncome } from '@/api/income'
-
-interface IncomeType {
-  id: number
-  name: string
-}
+import type { IncomeType } from '@/api/incomeTypes'
 
 const expenseModal = ref<boolean>(false)
 
@@ -39,7 +35,7 @@ const { mutate } = useMutation({
 
 <template>
   <ExpenseIncomeDialog
-    v-model="expenseModal" type="income" title="Receita" :select-data="data"
+    v-model="expenseModal" type="income" title="Receita" :select-data="data ?? []"
     @handle-create="mutate($event)"
   />
 </template>

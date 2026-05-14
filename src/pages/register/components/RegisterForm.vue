@@ -1,9 +1,9 @@
 <script setup>
-import axios from 'axios'
 import { Notify, QBtn, QForm, QInput } from 'quasar'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import WrapperForm from '../../../components/WrapperForm.vue'
+import axios from '@/api/axiosInstance'
 
 const name = ref('')
 const email = ref('')
@@ -14,6 +14,16 @@ const errorMessage = ref('')
 const router = useRouter()
 
 async function handleRegister() {
+  if (password.value !== confirmPassword.value) {
+    errorMessage.value = 'As senhas não coincidem'
+    Notify.create({
+      message: 'As senhas não coincidem',
+      color: 'negative',
+      textColor: 'white',
+    })
+    return
+  }
+
   try {
     const registerData = {
       name: name.value,
@@ -22,7 +32,7 @@ async function handleRegister() {
       confirmpassword: confirmPassword.value,
     }
 
-    const response = await axios.post('/api/register', registerData)
+    const response = await axios.post('/user/register', registerData)
 
     Notify.create({
       message: response.data.msg,

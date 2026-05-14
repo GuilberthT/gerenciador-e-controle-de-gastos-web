@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { QBtn, QCard, QCardSection, QPage, QTable } from 'quasar'
 import { useQuery } from '@tanstack/vue-query'
 import ExpenseDialog from '@/components/ExpenseDialog.vue'
@@ -9,18 +9,21 @@ const expenseModal = ref(false)
 
 const columns = [
   { name: 'description', label: 'Descrição', field: 'description', align: 'left' },
-  { name: 'amount', label: 'Valor', field: 'value', align: 'right', format: val => `R$ ${val}` },
+  { name: 'amount', label: 'Valor', field: 'amount', align: 'right', format: (val: number) => `R$ ${val?.toFixed(2) ?? '0,00'}` },
   { name: 'date', label: 'Data', field: 'date', align: 'left' },
   { name: 'action', label: 'Ações', align: 'left' },
 ]
 
 const {
-  data,
+  data: rawData,
   isPending: expensesLoading,
+  isError: expensesError,
 } = useQuery({
   queryKey: ['expenses-table'],
   queryFn: getExpenses,
 })
+
+const data = computed(() => (Array.isArray(rawData.value) ? rawData.value : []))
 
 function editExpense() {
   expenseModal.value = true
@@ -30,7 +33,12 @@ function editExpense() {
 <template>
   <QPage class="bg-light">
     <QCard class="q-ma-md" flat bordered style="max-width: 1000px; margin: auto;">
-      <QCardSection v-if="!expensesLoading">
+      <QCardSection v-if="expensesError">
+        <div class="text-negative">
+          Erro ao carregar despesas. Tente novamente.
+        </div>
+      </QCardSection>
+      <QCardSection v-else-if="!expensesLoading">
         <div class="text-h6 q-mb-md">
           Gerenciamento de Despesas
         </div>

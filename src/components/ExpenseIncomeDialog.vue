@@ -40,7 +40,7 @@ async function handleCreateExpense() {
 
   const createData = {
     description: description.value,
-    value: value.value,
+    amount: value.value,
     [registerType]: selectedType.value,
     date: dayjs(expenseDate.value).format('DD/MM/YYYY'),
   }

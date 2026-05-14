@@ -2,7 +2,7 @@ import Cookies from 'js-cookie'
 import axios from './axiosInstance'
 
 interface LoginData {
-  username: string
+  email: string
   password: string
 }
 
