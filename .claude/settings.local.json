@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git -C .claude/worktrees/strange-goldberg-d70c72 status)",
+      "Bash(git -C .claude/worktrees/strange-goldberg-d70c72 diff)",
+      "Bash(git -C .claude/worktrees/strange-goldberg-d70c72 diff --staged)",
+      "Bash(git -C .claude/worktrees/strange-goldberg-d70c72 log --oneline -3)"
+    ]
+  }
+}
