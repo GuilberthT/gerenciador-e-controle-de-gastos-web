@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { computed, ref } from 'vue'
 import { QBtn, QCard, QCardSection, QPage, QTable } from 'quasar'
 import { useQuery } from '@tanstack/vue-query'

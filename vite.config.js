@@ -19,7 +19,7 @@ export default defineConfig({
     VueDevTools(),
     quasar({
       autoImportComponentCase: 'pascal',
-      sassVariables: 'src/quasar-variables.sass',
+      sassVariables: fileURLToPath(new URL('./src/quasar-variables.sass', import.meta.url)),
     }),
     Components({
       // relative paths to the directory to search for components.
