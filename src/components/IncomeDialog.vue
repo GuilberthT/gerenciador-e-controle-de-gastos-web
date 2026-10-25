@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { Notify } from 'quasar'
-import { ref } from 'vue'
 import ExpenseIncomeDialog from '@/components/ExpenseIncomeDialog.vue'
 import { getIncomeTypes } from '@/api/incomeTypes'
-import type { CreateIncomePayload } from '@/api/income'
-import { createIncome } from '@/api/income'
 import type { IncomeType } from '@/api/incomeTypes'
+import { createIncome } from '@/api/income'
+import type { CreateIncomePayload } from '@/api/income'
 
-const expenseModal = ref<boolean>(false)
+const incomeModal = defineModel<boolean>()
 
 const queryClient = useQueryClient()
 
@@ -18,10 +17,11 @@ const { data } = useQuery<IncomeType[], Error>({
 })
 
 const { mutate } = useMutation({
-  mutationFn: (data: CreateIncomePayload) => createIncome(data),
+  mutationFn: (income: CreateIncomePayload) => createIncome(income),
   onSuccess: () => {
-    expenseModal.value = false
+    incomeModal.value = false
 
+    queryClient.invalidateQueries({ queryKey: ['incomes-table'] })
     queryClient.invalidateQueries({ queryKey: ['get-total-incomes'] })
 
     Notify.create({
@@ -30,12 +30,22 @@ const { mutate } = useMutation({
       textColor: 'white',
     })
   },
+  onError: (error) => {
+    Notify.create({
+      message: `Erro: ${error}`,
+      color: 'negative',
+      textColor: 'white',
+    })
+  },
 })
 </script>
 
 <template>
   <ExpenseIncomeDialog
-    v-model="expenseModal" type="income" title="Receita" :select-data="data ?? []"
+    v-model="incomeModal"
+    type="income"
+    title="Receita"
+    :select-data="data ?? []"
     @handle-create="mutate($event)"
   />
 </template>
