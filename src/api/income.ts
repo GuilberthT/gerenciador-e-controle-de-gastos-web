@@ -1,32 +1,34 @@
 import axios from './axiosInstance'
+import type { MonthTotal } from './expenses'
+import type { IncomeType } from './incomeTypes'
 
 export interface Income {
-  id?: number
+  _id: string
   description: string
-  amount: number
+  value: number
+  incomeType: IncomeType | null
   date: string
-  category: string
-  total: number
+  createdAt?: string
 }
 
 export interface CreateIncomePayload {
   description: string
-  amount: number
+  value: number
+  incomeType: string
   date: string
-  category: string
 }
 
 export async function getIncomes(): Promise<Income[]> {
-  const response = await axios.get<{ data: Income[] }>('/incomes')
-  return response.data.data
+  const response = await axios.get<Income[]>('/incomes')
+  return response.data
 }
 
 export async function createIncome(payload: CreateIncomePayload): Promise<Income> {
-  const response = await axios.post<{ data: Income }>('/incomes', payload)
-  return response.data.data
+  const response = await axios.post<Income>('/incomes', payload)
+  return response.data
 }
 
-export async function getTotalIncomes(mouth: number) {
-  const response = await axios.get<{ data: Income }>(`/incomes/total/${mouth}`)
-  return response.data.data
+export async function getTotalIncomes(month: number): Promise<MonthTotal> {
+  const response = await axios.get<MonthTotal>(`/incomes/total/${month}`)
+  return response.data
 }

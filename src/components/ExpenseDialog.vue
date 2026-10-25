@@ -4,6 +4,7 @@ import { Notify } from 'quasar'
 import ExpenseIncomeDialog from '@/components/ExpenseIncomeDialog.vue'
 import { getExpensesTypes } from '@/api/expensesTypes'
 import { createExpense } from '@/api/expenses'
+import type { CreateExpensePayload } from '@/api/expenses'
 
 const expenseModal = defineModel<boolean>()
 
@@ -15,7 +16,7 @@ const { data } = useQuery({
 })
 
 const { mutate } = useMutation({
-  mutationFn: (expense: any) => createExpense(expense),
+  mutationFn: (expense: CreateExpensePayload) => createExpense(expense),
   onSuccess: () => {
     expenseModal.value = false
 

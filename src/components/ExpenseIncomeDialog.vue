@@ -1,7 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import { Notify } from 'quasar'
-import dayjs from 'dayjs'
 import InputDate from './InputDate.vue'
 
 interface SelectOption {
@@ -24,7 +23,13 @@ const openDialog = defineModel<boolean>()
 const description = ref('')
 const value = ref<number | null>(null)
 const expenseDate = ref()
-const selectedType = ref<SelectOption | null>(null)
+const selectedType = ref<string | null>(null)
+
+// O calendário devolve "DD/MM/AAAA", mas a API espera "AAAA-MM-DD"
+function toApiDate(date: string): string {
+  const [day, month, year] = date.split('/')
+  return `${year}-${month}-${day}`
+}
 
 async function handleCreateExpense() {
   if (!description.value || !value.value || !selectedType.value || !expenseDate.value) {
@@ -40,9 +45,9 @@ async function handleCreateExpense() {
 
   const createData = {
     description: description.value,
-    amount: value.value,
+    value: value.value,
     [registerType]: selectedType.value,
-    date: dayjs(expenseDate.value).format('DD/MM/YYYY'),
+    date: toApiDate(expenseDate.value),
   }
 
   emit('handleCreate', createData)
