@@ -11,6 +11,7 @@ import { formatCurrency, formatDate, parseApiDate } from '@/utils/format'
 const $q = useQuasar()
 const queryClient = useQueryClient()
 const expenseModal = ref(false)
+const selectedExpense = ref<Expense | null>(null)
 
 const columns: QTableColumn<Expense>[] = [
   {
@@ -62,6 +63,16 @@ const { mutate: removeExpense } = useMutation({
   },
 })
 
+function openNewExpense() {
+  selectedExpense.value = null
+  expenseModal.value = true
+}
+
+function openEditExpense(expense: Expense) {
+  selectedExpense.value = expense
+  expenseModal.value = true
+}
+
 function confirmDelete(expense: Expense) {
   $q.dialog({
     title: 'Excluir despesa',
@@ -85,7 +96,7 @@ function confirmDelete(expense: Expense) {
           icon="remove_circle"
           label="Nova despesa"
           no-caps
-          @click="expenseModal = true"
+          @click="openNewExpense"
         />
       </QCardSection>
 
@@ -107,6 +118,9 @@ function confirmDelete(expense: Expense) {
         >
           <template #body-cell-actions="props">
             <QTd :props="props">
+              <QBtn flat round dense icon="edit" color="primary" @click="openEditExpense(props.row)">
+                <QTooltip>Editar</QTooltip>
+              </QBtn>
               <QBtn flat round dense icon="delete" color="negative" @click="confirmDelete(props.row)">
                 <QTooltip>Excluir</QTooltip>
               </QBtn>
@@ -120,6 +134,6 @@ function confirmDelete(expense: Expense) {
       </QCardSection>
     </QCard>
 
-    <ExpenseDialog v-model="expenseModal" />
+    <ExpenseDialog v-model="expenseModal" :expense="selectedExpense" />
   </QPage>
 </template>

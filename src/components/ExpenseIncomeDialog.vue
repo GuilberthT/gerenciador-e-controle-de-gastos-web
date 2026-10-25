@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { Notify } from 'quasar'
 import InputDate from './InputDate.vue'
 
@@ -8,10 +8,19 @@ interface SelectOption {
   description: string
 }
 
+// Dados para preencher o formulário quando o modal abre em modo de edição
+interface InitialData {
+  description: string
+  value: number
+  typeId: string | null
+  date: string // "DD/MM/AAAA"
+}
+
 const props = defineProps<{
   selectData: SelectOption[]
   title: string
   type: 'income' | 'expense'
+  initialData?: InitialData | null
 }>()
 
 const emit = defineEmits<{
@@ -24,6 +33,23 @@ const description = ref('')
 const value = ref<number | null>(null)
 const expenseDate = ref()
 const selectedType = ref<string | null>(null)
+
+// Toda vez que o modal abre: em edição, preenche os campos; senão, limpa
+watch(openDialog, (isOpen) => {
+  if (!isOpen) {
+    return
+  }
+
+  if (props.initialData) {
+    description.value = props.initialData.description
+    value.value = props.initialData.value
+    selectedType.value = props.initialData.typeId
+    expenseDate.value = props.initialData.date
+  }
+  else {
+    resetFields()
+  }
+})
 
 // O calendário devolve "DD/MM/AAAA", mas a API espera "AAAA-MM-DD"
 function toApiDate(date: string): string {
@@ -72,7 +98,7 @@ function closeDialog() {
     <QCard style="min-width: 350px">
       <QCardSection>
         <div class="text-h6">
-          Lançar {{ title }}
+          {{ initialData ? 'Editar' : 'Lançar' }} {{ title }}
         </div>
       </QCardSection>
 
@@ -99,7 +125,7 @@ function closeDialog() {
 
       <QCardActions align="right" class="text-primary">
         <QBtn flat label="Cancelar" @click="closeDialog" />
-        <QBtn flat label="Lançar" @click="handleCreateExpense" />
+        <QBtn flat :label="initialData ? 'Salvar' : 'Lançar'" @click="handleCreateExpense" />
       </QCardActions>
     </QCard>
   </QDialog>

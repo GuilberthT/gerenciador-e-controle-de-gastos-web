@@ -36,6 +36,11 @@ export async function getTotalExpenses(month: number): Promise<MonthTotal> {
   return response.data
 }
 
+export async function updateExpense(id: string, payload: CreateExpensePayload): Promise<Expense> {
+  const response = await axios.put<Expense>(`/expenses/${id}`, payload)
+  return response.data
+}
+
 export async function deleteExpense(id: string): Promise<void> {
   await axios.delete(`/expenses/${id}`)
 }
