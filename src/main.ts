@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import { QueryClient, VueQueryPlugin } from '@tanstack/vue-query'
-import { Notify, Quasar } from 'quasar'
+import { Dialog, Notify, Quasar } from 'quasar'
 import quasarLang from 'quasar/lang/pt-BR'
 import App from './App.vue'
 import router from './router'
@@ -27,6 +27,7 @@ app.use(VueQueryPlugin, { queryClient: vueQueryOptions })
 app.use(Quasar, {
   plugins: {
     Notify,
+    Dialog,
   },
   config: {
     notify: {

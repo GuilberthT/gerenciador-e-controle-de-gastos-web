@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
+import { Notify, useQuasar } from 'quasar'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import type { QTableColumn } from 'quasar'
-import { useQuery } from '@tanstack/vue-query'
+import { deleteExpense, getExpenses } from '@/api/expenses'
 import ExpenseDialog from '@/components/ExpenseDialog.vue'
-import { getExpenses } from '@/api/expenses'
 import type { Expense } from '@/api/expenses'
 import { formatCurrency, formatDate, parseApiDate } from '@/utils/format'
 
+const $q = useQuasar()
+const queryClient = useQueryClient()
 const expenseModal = ref(false)
 
 const columns: QTableColumn<Expense>[] = [
@@ -34,6 +37,7 @@ const columns: QTableColumn<Expense>[] = [
     sortable: true,
     format: (val: number) => formatCurrency(val),
   },
+  { name: 'actions', label: 'Ações', field: '_id', align: 'center' },
 ]
 const pagination = ref({ sortBy: 'date', descending: true, rowsPerPage: 10 })
 
@@ -44,6 +48,29 @@ const { data, isPending, isError, refetch } = useQuery({
 
 const rows = computed(() => data.value ?? [])
 const total = computed(() => rows.value.reduce((sum, expense) => sum + expense.value, 0))
+
+const { mutate: removeExpense } = useMutation({
+  mutationFn: (id: string) => deleteExpense(id),
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['expenses-table'] })
+    queryClient.invalidateQueries({ queryKey: ['get-total-expenses'] })
+
+    Notify.create({ message: 'Despesa excluída.', color: 'positive', textColor: 'white' })
+  },
+  onError: (error) => {
+    Notify.create({ message: `Erro: ${error}`, color: 'negative', textColor: 'white' })
+  },
+})
+
+function confirmDelete(expense: Expense) {
+  $q.dialog({
+    title: 'Excluir despesa',
+    message: `Tem certeza que deseja excluir "${expense.description}"?`,
+    cancel: { label: 'Cancelar', flat: true },
+    ok: { label: 'Excluir', color: 'negative', flat: true },
+    persistent: true,
+  }).onOk(() => removeExpense(expense._id))
+}
 </script>
 
 <template>
@@ -77,7 +104,15 @@ const total = computed(() => rows.value.reduce((sum, expense) => sum + expense.v
           no-data-label="Nenhuma despesa cadastrada ainda."
           flat
           bordered
-        />
+        >
+          <template #body-cell-actions="props">
+            <QTd :props="props">
+              <QBtn flat round dense icon="delete" color="negative" @click="confirmDelete(props.row)">
+                <QTooltip>Excluir</QTooltip>
+              </QBtn>
+            </QTd>
+          </template>
+        </QTable>
 
         <div class="text-right text-subtitle1 q-mt-md">
           Total: <span class="text-red text-weight-bold">{{ formatCurrency(total) }}</span>
